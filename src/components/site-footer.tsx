@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Wordmark } from "@/components/logo";
 
 const columns: { title: string; links: [string, string][] }[] = [
   {
@@ -24,7 +25,7 @@ export function SiteFooter() {
     <footer className="border-t border-border">
       <div className="mx-auto grid max-w-[1180px] gap-10 border-x border-border px-6 py-16 sm:grid-cols-[1fr_auto_auto] sm:gap-20 md:px-8">
         <div>
-          <p className="text-[20px] font-semibold tracking-[-0.03em]">Liyun</p>
+          <Wordmark />
         </div>
         {columns.map((c) => (
           <div key={c.title}>

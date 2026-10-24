@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Wordmark } from "@/components/logo";
 
 export const pillClass =
   "inline-flex h-9 items-center rounded-full px-4 text-[14px] whitespace-nowrap transition-colors sm:h-10 sm:text-[15px]";
@@ -26,11 +27,8 @@ export function SiteNav() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-[1180px] items-center gap-3 px-4 sm:px-6">
-        <Link
-          href="/"
-          className="me-auto text-[20px] font-semibold tracking-[-0.03em]"
-        >
-          Liyun
+        <Link href="/" className="me-auto flex items-center">
+          <Wordmark />
         </Link>
         <Link href="/docs" className={pillLight}>
           Read the docs

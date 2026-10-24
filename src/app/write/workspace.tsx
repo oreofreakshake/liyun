@@ -25,6 +25,7 @@ import {
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { DocumentMeta, StoredDocument } from "store";
+import { Wordmark } from "@/components/logo";
 import { documentStore, fallBackToMemory, isPersistent } from "@/store";
 import { templates } from "@/templates";
 
@@ -145,11 +146,8 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
 
   const documentControls = (
     <>
-      <Link
-        href="/"
-        className="shrink-0 px-1 text-[19px] font-semibold tracking-[-0.03em]"
-      >
-        Liyun
+      <Link href="/" className="shrink-0 px-1">
+        <Wordmark size="text-[19px]" />
       </Link>
       <span
         aria-hidden
