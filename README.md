@@ -3,9 +3,9 @@
 A free, open-source web editor for Dhivehi documents, where mixed Dhivehi and English text
 stays in order. Comes with templates for common Maldivian documents.
 
-## Why
+## Why (other than a personal skill issue)
 
-Dhivehi is written right to left; English words and numbers run left to right. Most editors get
+Dhivehi is written right-to-left; English words and numbers run left-to-right. Most editors get
 the characters around them wrong when the two mix: `C++` inside a Dhivehi sentence shows up as
 `++C`, a phone number like `+960 333 4444` comes out as `4444 333 960+`, `50%` becomes `%50` and
 `$150` becomes `150$`.
@@ -13,7 +13,7 @@ the characters around them wrong when the two mix: `C++` inside a Dhivehi senten
 Liyun handles this in two ways:
 
 1. **Each paragraph picks its own direction** from its content. A Dhivehi sentence that starts
-   with an English word stays right to left, where `dir="auto"` would flip it. Any paragraph can
+   with an English word stays right-to-left, where `dir="auto"` would flip it. Any paragraph can
    also be set to RTL or LTR by hand.
 2. **English and number runs are isolated** (`<bdi dir="ltr">`) automatically as you type,
    together with attached symbols such as `$`, `%`, `#`, `+`, `/` and `!`, so the surrounding
@@ -25,11 +25,10 @@ editor, typed and pasted, and after export to Word.
 ## Features
 
 - Per-paragraph direction and automatic LTR isolation
-- Thaana keyboard: phonetic, Hassan Hameed phonetic and typewriter layouts
-  (Ctrl/Cmd + Shift + Space to switch)
+- Thaana keyboard: phonetic, Hassan Hameed phonetic, and typewriter layouts
 - Templates: official letter, memo, meeting minutes, invoice, news article
 - Export to Word (.docx) and PDF (browser print); JSON backup and restore
-- No account and no server: documents are saved in the browser (IndexedDB)
+- No account and no server: documents are saved in the browser (for now)
 
 ## Getting started
 
@@ -63,14 +62,12 @@ User documentation is on the site at `/docs`.
 ## Fonts
 
 The Thaana font used in development is not included in the repository. Without it, Thaana text
-falls back to a system font.
+falls back to a system font.  We are using [Rasmee](https://www.akurutype.com/fonts/rasmee) by [Akurutype](https://www.akurutype.com/)
 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Corrections to Dhivehi wording in templates and test
 cases are especially welcome.
 
-## Licence
-
-[Apache License 2.0](LICENSE). The Thaana keyboard layouts are adapted from
-[JTK](https://github.com/jawish/jtk) by Jawish Hameed (MIT).
+The Thaana keyboard layouts are adapted from
+[JTK](https://github.com/jawish/jtk) by Jawish
