@@ -9,14 +9,28 @@ export const pillClass =
 export const pillDark = `${pillClass} bg-primary text-primary-foreground hover:bg-primary-active`;
 export const pillLight = `${pillClass} border border-border bg-card shadow-soft hover:bg-panel`;
 
-export function SiteNav() {
+export function SiteNav({ heroActions = false }: { heroActions?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
+  const [heroInView, setHeroInView] = useState(heroActions);
   useEffect(() => {
     const update = () => setScrolled(window.scrollY > 4);
     update();
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
+
+  useEffect(() => {
+    const hero = heroActions && document.getElementById("hero-actions");
+    if (!hero) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroInView(entry.isIntersecting),
+      { rootMargin: "-64px 0px 0px 0px" },
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, [heroActions]);
+
+  const hideOnPhone = heroActions && heroInView;
 
   return (
     <header
@@ -30,12 +44,20 @@ export function SiteNav() {
         <Link href="/" className="me-auto flex items-center">
           <Wordmark />
         </Link>
-        <Link href="/docs" className={pillLight}>
-          Read the docs
-        </Link>
-        <Link href="/write" className={pillDark}>
-          Start writing
-        </Link>
+        <div
+          className={`flex items-center gap-2 transition-[opacity,translate,visibility] duration-300 ease-out motion-reduce:transition-none ${
+            hideOnPhone
+              ? "max-sm:invisible max-sm:translate-y-1.5 max-sm:opacity-0"
+              : ""
+          }`}
+        >
+          <Link href="/docs" className={pillLight}>
+            Read the docs
+          </Link>
+          <Link href="/write" className={pillDark}>
+            Start writing
+          </Link>
+        </div>
       </nav>
     </header>
   );

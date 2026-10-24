@@ -14,7 +14,7 @@ const examples: { before: string; run: string; after: string }[] = [
   },
 ];
 
-const sides = ["In Liyun", "As typed elsewhere"];
+const sides = ["In Liyun", "As typed"];
 
 export function Comparison() {
   const scroller = useRef<HTMLDivElement>(null);

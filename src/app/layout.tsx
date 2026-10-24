@@ -28,6 +28,12 @@ export const metadata: Metadata = {
   ),
   title: "Liyun",
   description,
+  formatDetection: {
+    telephone: false,
+    date: false,
+    email: false,
+    address: false,
+  },
   openGraph: {
     title: "Liyun",
     description,

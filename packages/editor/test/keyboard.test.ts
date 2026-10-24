@@ -12,10 +12,6 @@ test("phonetic: divehi types ދިވެހި", () => {
   expect(translate("divehi", "phonetic")).toBe("ދިވެހި");
 });
 
-test("typewriter: home row", () => {
-  expect(translate("asdfghjkl", "typewriter")).toBe("ިުްަެވއނކ");
-});
-
 test("keys outside the layout type themselves", () => {
   expect(translate("2026 ", "phonetic")).toBe("2026 ");
 });
@@ -36,11 +32,11 @@ test("with no layout, typing passes through", () => {
 
 test("toggle switches between the last layout and plain typing", () => {
   editor = createEditor();
-  editor.commands.setKeyboardLayout("typewriter");
+  editor.commands.setKeyboardLayout("phonetic");
   editor.commands.toggleThaanaKeyboard();
   expect(editor.storage.thaanaKeyboard.layout).toBeNull();
   editor.commands.toggleThaanaKeyboard();
-  expect(editor.storage.thaanaKeyboard.layout).toBe("typewriter");
+  expect(editor.storage.thaanaKeyboard.layout).toBe("phonetic");
 });
 
 test("switching layouts mid-line produces an isolated Latin run", () => {
@@ -57,4 +53,41 @@ test("switching layouts mid-line produces an isolated Latin run", () => {
   expect(dir).toBe("rtl");
   const atoms = visualAtoms(text, dir).atoms;
   expect(atoms.slice(1, 6)).toEqual([" ", "C", "+", "+", " "]);
+});
+
+function press(
+  editor: Editor,
+  type: "keydown" | "keyup",
+  key: string,
+  mods = {},
+) {
+  const event = new KeyboardEvent(type, { key, ...mods });
+  if (type === "keydown") {
+    editor.view.someProp("handleKeyDown", (f) => f(editor.view, event));
+  } else {
+    editor.view.dom.dispatchEvent(event);
+  }
+}
+
+test("Alt + Shift, pressed and released alone, switches Thaana and English", () => {
+  editor = createEditor();
+  editor.commands.setKeyboardLayout("phonetic");
+  press(editor, "keydown", "Alt", { altKey: true });
+  press(editor, "keydown", "Shift", { altKey: true, shiftKey: true });
+  press(editor, "keyup", "Shift", { altKey: true });
+  expect(editor.storage.thaanaKeyboard.layout).toBeNull();
+  press(editor, "keydown", "Shift", { shiftKey: true });
+  press(editor, "keydown", "Alt", { altKey: true, shiftKey: true });
+  press(editor, "keyup", "Alt", { shiftKey: true });
+  expect(editor.storage.thaanaKeyboard.layout).toBe("phonetic");
+});
+
+test("Alt + Shift with another key in between does not switch", () => {
+  editor = createEditor();
+  editor.commands.setKeyboardLayout("phonetic");
+  press(editor, "keydown", "Alt", { altKey: true });
+  press(editor, "keydown", "Shift", { altKey: true, shiftKey: true });
+  press(editor, "keydown", "ArrowLeft", { altKey: true, shiftKey: true });
+  press(editor, "keyup", "Shift", { altKey: true });
+  expect(editor.storage.thaanaKeyboard.layout).toBe("phonetic");
 });

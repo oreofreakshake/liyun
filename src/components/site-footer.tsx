@@ -23,7 +23,7 @@ const columns: { title: string; links: [string, string][] }[] = [
 export function SiteFooter() {
   return (
     <footer className="border-t border-border">
-      <div className="mx-auto grid max-w-[1180px] gap-10 border-x border-border px-6 py-16 sm:grid-cols-[1fr_auto_auto] sm:gap-20 md:px-8">
+      <div className="mx-auto grid max-w-[1180px] gap-10 px-6 py-16 md:border-x md:border-border sm:grid-cols-[1fr_auto_auto] sm:gap-20 md:px-8">
         <div>
           <Wordmark />
         </div>

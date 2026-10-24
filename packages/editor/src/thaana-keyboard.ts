@@ -58,19 +58,17 @@ export const ThaanaKeyboard = Extension.create<
     };
   },
 
-  addKeyboardShortcuts() {
-    return {
-      "Mod-Shift-Space": () => this.editor.commands.toggleThaanaKeyboard(),
-    };
-  },
-
   addProseMirrorPlugins() {
     const storage = this.storage;
+    const editor = this.editor;
+    let armed = false;
     return [
       new Plugin({
         key: new PluginKey("thaanaKeyboard"),
         props: {
           handleKeyDown(view, event) {
+            const modifier = event.key === "Alt" || event.key === "Shift";
+            armed = modifier ? event.altKey && event.shiftKey : false;
             if (!storage.layout) return false;
             if (event.ctrlKey || event.metaKey || event.altKey) return false;
             if (event.isComposing) return false;
@@ -78,6 +76,15 @@ export const ThaanaKeyboard = Extension.create<
             if (!mapped) return false;
             view.dispatch(view.state.tr.insertText(mapped).scrollIntoView());
             return true;
+          },
+          handleDOMEvents: {
+            keyup(_view, event) {
+              if (armed && (event.key === "Alt" || event.key === "Shift")) {
+                armed = false;
+                editor.commands.toggleThaanaKeyboard();
+              }
+              return false;
+            },
           },
         },
       }),

@@ -25,7 +25,7 @@ editor, typed and pasted, and after export to Word.
 ## Features
 
 - Per-paragraph direction and automatic LTR isolation
-- Thaana keyboard: phonetic, Hassan Hameed phonetic, and typewriter layouts
+- Phonetic Thaana keyboard; switch to English from the keyboard menu or with Alt + Shift
 - Templates: official letter, memo, meeting minutes, invoice, news article
 - Export to Word (.docx) and PDF (browser print); JSON backup and restore
 - No account and no server: documents are saved in the browser (for now)
@@ -69,5 +69,5 @@ falls back to a system font.  We are using [Rasmee](https://www.akurutype.com/fo
 See [CONTRIBUTING.md](CONTRIBUTING.md). Corrections to Dhivehi wording in templates and test
 cases are especially welcome.
 
-The Thaana keyboard layouts are adapted from
+The Thaana keyboard layout is adapted from
 [JTK](https://github.com/jawish/jtk) by Jawish

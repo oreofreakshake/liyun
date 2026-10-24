@@ -5,10 +5,10 @@ import {
   PrinterIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Comparison } from "@/components/comparison";
+import { ProductPreview } from "@/components/product-preview";
 import { SiteFooter } from "@/components/site-footer";
 import { pillDark, pillLight, SiteNav } from "@/components/site-nav";
 
@@ -115,7 +115,7 @@ function IconTile({ icon }: { icon: IconSvgElement }) {
 export default function Home() {
   return (
     <>
-      <SiteNav />
+      <SiteNav heroActions />
       <main>
         <div className="mx-auto max-w-295">
           <section className="grid gap-8 px-6 pt-20 pb-16 md:grid-cols-2 md:px-8 md:pt-28">
@@ -128,7 +128,7 @@ export default function Home() {
                   Dhivehi, in order.
                 </span>
               </h1>
-              <div className="mt-8 flex gap-2">
+              <div id="hero-actions" className="mt-8 flex gap-2">
                 <Link href="/write" className={pillDark}>
                   Start writing
                 </Link>
@@ -139,15 +139,8 @@ export default function Home() {
             </div>
           </section>
           <div className="px-3 pb-24 md:px-8">
-            <div className="rounded-[20px] bg-panel bg-[radial-gradient(110%_90%_at_12%_8%,var(--orb-mint),transparent_60%),radial-gradient(90%_80%_at_95%_95%,var(--orb-sky),transparent_60%)] p-3 sm:p-10 md:p-16">
-              <Image
-                src="/images/editor.jpg"
-                alt="The Liyun editor with a Dhivehi document; English words and numbers are highlighted as protected runs."
-                width={2360}
-                height={1440}
-                priority
-                className="h-auto w-full rounded-xl shadow-soft"
-              />
+            <div className="rounded-[20px] bg-panel bg-[radial-gradient(110%_90%_at_12%_8%,var(--orb-mint),transparent_60%),radial-gradient(90%_80%_at_95%_95%,var(--orb-sky),transparent_60%)] px-3 pt-6 sm:px-10 sm:pt-12 md:px-16 md:pt-16">
+              <ProductPreview />
             </div>
           </div>
         </div>
@@ -189,7 +182,7 @@ export default function Home() {
           <div className="grid gap-3 px-3 pb-20 md:grid-cols-2 md:px-8">
             <Card
               label="Thaana keyboard"
-              text="Phonetic or typewriter layout on any computer."
+              text="Phonetic Thaana on any computer, one tap from English."
               className="bg-panel bg-[radial-gradient(100%_90%_at_10%_0%,var(--orb-peach),transparent_65%),radial-gradient(90%_80%_at_100%_100%,var(--orb-rose),transparent_60%)]"
             >
               <div className="mx-auto mt-10 w-full max-w-sm rounded-2xl bg-card p-6 shadow-soft">

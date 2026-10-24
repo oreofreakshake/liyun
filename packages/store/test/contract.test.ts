@@ -79,3 +79,24 @@ describe.each(stores)("%s", (_, create) => {
     expect((await store.open(meta.id))?.file).toEqual(file("a"));
   });
 });
+
+test("ids are UUIDs even where crypto.randomUUID is missing (plain http)", async () => {
+  const { newId } = await import("../src/document-store");
+  const original = crypto.randomUUID;
+  Object.defineProperty(crypto, "randomUUID", {
+    value: undefined,
+    configurable: true,
+  });
+  try {
+    const id = newId();
+    expect(id).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+    );
+    expect(newId()).not.toBe(id);
+  } finally {
+    Object.defineProperty(crypto, "randomUUID", {
+      value: original,
+      configurable: true,
+    });
+  }
+});

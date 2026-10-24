@@ -1,48 +1,45 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 
 export const metadata: Metadata = { title: "Documentation | Liyun" };
+
+const Run = ({ children }: { children: ReactNode }) => (
+  <bdi dir="ltr" className="rounded-md bg-orb-sky/40 px-1 py-0.5">
+    {children}
+  </bdi>
+);
 
 export default function Writing() {
   return (
     <>
       <h1>Writing mixed text</h1>
       <p className="lead">
-        Thaana runs right to left, English and numbers left to right. Liyun
-        keeps both in order without you doing anything.
+        Liyun keeps Dhivehi, English and numbers in order on its own.
       </p>
 
-      <h2>Each paragraph has its own direction</h2>
-      <p>
-        Liyun looks at what you write in a paragraph and sets its direction. A
-        Dhivehi sentence that starts with an English word stays right to left:
-      </p>
+      <h2>Own direction</h2>
+      <p>A Dhivehi line stays right to left, even when it starts in English.</p>
       <p className="example" lang="dv" dir="rtl">
         iPhone 17 ވިއްކަން ފަށައިފި
       </p>
-      <p>
-        The toolbar shows what it chose, for example <strong>Auto · RTL</strong>
-        . Press <strong>RTL</strong> or <strong>LTR</strong> to set a paragraph
-        yourself; <strong>Auto</strong> hands it back.
+      <p className="hint">
+        To set it yourself, pick <strong>RTL</strong> or <strong>LTR</strong> in
+        the toolbar.
       </p>
 
-      <h2>English and numbers are protected</h2>
-      <p>
-        Brackets, <code>%</code>, <code>$</code>, <code>+</code>, <code>#</code>{" "}
-        and <code>/</code> next to English or numbers often jump to the wrong
-        side. Liyun protects each run of English and numbers so they stay put:
-      </p>
+      <h2>English and numbers stay put</h2>
+      <p>Brackets and symbols stay with the words they belong to.</p>
       <p className="example" lang="dv" dir="rtl">
-        ގުޅުއްވާނީ <bdi dir="ltr">+960 333 4444</bdi> އަށް
+        ގުޅުއްވާނީ <Run>+960 333 4444</Run> އަށް
       </p>
-      <p>
-        Press the highlighter button in the toolbar to see the protected parts.
+      <p className="hint">
+        Turn on the highlighter in the toolbar to see these parts.
       </p>
 
       <h2>Type it the way it reads</h2>
       <p>
-        Write <code>50%</code>, not <code>%50</code>. In Word, people often type
-        the percent sign first to make it show up right; Liyun shows text as
-        typed, so the workaround shows up backwards here.
+        Write <code>50%</code>, not <code>%50</code>. The Word workaround shows
+        up backwards in Liyun.
       </p>
     </>
   );

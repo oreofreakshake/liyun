@@ -21,7 +21,6 @@ import { type ReactNode, useEffect, useReducer, useRef, useState } from "react";
 import type { Template } from "./document";
 import { download, parseDocumentFile, toDocumentFile } from "./export/file";
 import { coreExtensionOptions, editorExtensions } from "./extensions";
-import { type LayoutId, layouts } from "./layouts";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,6 +32,8 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { Kbd, KbdGroup } from "./ui/kbd";
+import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 
 type DirectionMode = "auto" | "rtl" | "ltr";
 
@@ -217,7 +218,7 @@ export function Editor({
         </div>
       </header>
 
-      <div className="sticky top-14 z-10 flex justify-center px-4 pt-4 print:hidden">
+      <div className="sticky top-14 z-10 flex justify-center px-2 pt-4 sm:px-4 print:hidden">
         <div className="no-scrollbar flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-border bg-card p-1 shadow-soft">
           <ToolButton
             label="Bold"
@@ -236,67 +237,80 @@ export function Editor({
 
           <Divider />
 
-          <fieldset aria-label="Paragraph direction" className="flex gap-0.5">
+          <ToggleGroup
+            type="single"
+            aria-label="Paragraph direction"
+            value={mode}
+            onValueChange={(m) => {
+              if (m)
+                editor
+                  .chain()
+                  .focus()
+                  .setParagraphDirection(m as DirectionMode)
+                  .run();
+            }}
+          >
             {(["auto", "rtl", "ltr"] as const).map((m) => (
-              <ToolButton
+              <ToggleGroupItem
                 key={m}
-                label={
+                className="px-2 sm:px-3"
+                value={m}
+                title={
                   m === "auto"
                     ? "Direction from content"
                     : `Always ${m.toUpperCase()}`
                 }
-                pressed={mode === m}
-                onClick={() =>
-                  editor.chain().focus().setParagraphDirection(m).run()
-                }
-                wide
               >
                 {m === "auto"
                   ? `Auto · ${resolved?.toUpperCase() ?? "–"}`
                   : m.toUpperCase()}
-              </ToolButton>
+              </ToggleGroupItem>
             ))}
-          </fieldset>
+          </ToggleGroup>
 
           <Divider />
 
           <DropdownMenu>
             <DropdownMenuTrigger
               className={triggerClass(false)}
-              aria-label={`Keyboard: ${layout ? layouts[layout].label : "English"}`}
-              title="Keyboard (Ctrl or Cmd + Shift + Space)"
+              aria-label={`Keyboard: ${layout ? "Thaana" : "English"}`}
             >
               <Icon icon={KeyboardIcon} />
-              {layout ? layouts[layout].label : "English"}
+              <span className="hidden sm:inline">
+                {layout ? "Thaana" : "English"}
+              </span>
               <Icon
                 icon={ArrowDown01Icon}
-                className="size-3.5 text-muted-foreground"
+                className="hidden size-3.5 text-muted-foreground sm:block"
               />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" className="w-80">
+            <DropdownMenuContent align="center" className="w-56">
               <DropdownMenuLabel>Keyboard</DropdownMenuLabel>
               <DropdownMenuRadioGroup
-                value={layout ?? "off"}
+                value={layout ? "thaana" : "english"}
                 onValueChange={(v) =>
                   editor
                     .chain()
                     .focus()
-                    .setKeyboardLayout(v === "off" ? null : (v as LayoutId))
+                    .setKeyboardLayout(v === "thaana" ? "phonetic" : null)
                     .run()
                 }
               >
-                {(Object.keys(layouts) as LayoutId[]).map((id) => (
-                  <DropdownMenuRadioItem key={id} value={id}>
-                    Thaana, {layouts[id].label}
-                  </DropdownMenuRadioItem>
-                ))}
-                <DropdownMenuRadioItem value="off">
+                <DropdownMenuRadioItem value="thaana">
+                  Thaana
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="english">
                   English
                 </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
               <DropdownMenuSeparator />
-              <p className="px-2.5 py-1.5 text-[12px] text-muted-foreground">
-                Ctrl or Cmd + Shift + Space to switch
+              <p className="flex items-center gap-1.5 px-2.5 py-1.5 text-[12px] text-muted-foreground">
+                <KbdGroup>
+                  <Kbd>Alt</Kbd>
+                  <span>+</span>
+                  <Kbd>Shift</Kbd>
+                </KbdGroup>
+                to switch
               </p>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -307,10 +321,10 @@ export function Editor({
               <DropdownMenu>
                 <DropdownMenuTrigger className={triggerClass(false)}>
                   <Icon icon={LicenseDraftIcon} />
-                  Templates
+                  <span className="hidden sm:inline">Templates</span>
                   <Icon
                     icon={ArrowDown01Icon}
-                    className="size-3.5 text-muted-foreground"
+                    className="hidden size-3.5 text-muted-foreground sm:block"
                   />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="center" className="w-64">
@@ -382,11 +396,16 @@ const triggerClass = (outlined: boolean) =>
   `inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] whitespace-nowrap transition-colors outline-none hover:bg-panel focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-panel ${
     outlined
       ? "border border-border bg-card shadow-soft"
-      : "h-8 text-[13px] text-body"
+      : "h-8 px-2 text-[13px] text-body sm:px-3"
   }`;
 
 function Divider() {
-  return <span aria-hidden className="mx-1 h-5 w-px shrink-0 bg-border" />;
+  return (
+    <span
+      aria-hidden
+      className="mx-1 hidden h-5 w-px shrink-0 bg-border sm:block"
+    />
+  );
 }
 
 function ToolButton({
