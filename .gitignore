@@ -50,3 +50,6 @@ CLAUDE.md
 DESIGN.md
 packages/thaana-bidi/fixtures/README.md
 scripts/
+
+# Real documents used as reference (never committed)
+private/

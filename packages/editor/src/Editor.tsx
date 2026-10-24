@@ -7,35 +7,25 @@ import {
   Doc01Icon,
   Download01Icon,
   FolderOpenIcon,
-  HighlighterIcon,
-  KeyboardIcon,
   LicenseDraftIcon,
   PrinterIcon,
-  TextBoldIcon,
-  TextItalicIcon,
 } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
 import type { Content, JSONContent } from "@tiptap/core";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { type ReactNode, useEffect, useReducer, useRef, useState } from "react";
 import type { Template } from "./document";
 import { download, parseDocumentFile, toDocumentFile } from "./export/file";
 import { coreExtensionOptions, editorExtensions } from "./extensions";
+import { Icon, Toolbar } from "./toolbar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Kbd, KbdGroup } from "./ui/kbd";
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
-
-type DirectionMode = "auto" | "rtl" | "ltr";
 
 const pageClass = [
   "min-h-[calc(1123px-12rem)] text-[17px] leading-[1.85] tracking-normal outline-none",
@@ -43,6 +33,10 @@ const pageClass = [
   "[&_h2]:text-[28px] [&_h2]:leading-[1.3] [&_h2]:mb-4",
   "[&_h3]:text-[22px] [&_h3]:leading-[1.4] [&_h3]:mt-6 [&_h3]:mb-2",
   "[&_p+p]:mt-3 [&_ol]:list-decimal [&_ol]:ps-6 [&_ul]:list-disc [&_ul]:ps-6 [&_li+li]:mt-1",
+  "[&_table]:my-4 [&_table]:w-full [&_table]:border-collapse [&_table]:table-fixed",
+  "[&_td]:border [&_td]:border-border-strong [&_td]:px-3 [&_td]:py-1.5 [&_td]:align-top",
+  "[&_th]:border [&_th]:border-border-strong [&_th]:bg-panel [&_th]:px-3 [&_th]:py-1.5 [&_th]:text-start [&_th]:align-top [&_th]:font-medium",
+  "[&_td_p+p]:mt-0 [&_.selectedCell]:bg-orb-sky/30",
   "print:min-h-0",
 ].join(" ");
 
@@ -89,14 +83,34 @@ export function Editor({
     };
   }, [editor]);
 
-  if (!editor) return null;
+  const printHeader = useRef<HTMLTableCellElement>(null);
+  const printBody = useRef<HTMLTableCellElement>(null);
+  const printFooter = useRef<HTMLTableCellElement>(null);
+  useEffect(() => {
+    if (!editor) return;
+    const fill = () => {
+      const fill = (cell: HTMLElement | null, nodes: Element[]) =>
+        cell?.replaceChildren(...nodes.map((n) => n.cloneNode(true)));
+      const parts = [...editor.view.dom.children];
+      const frame = (attr: string) => [
+        ...(parts.find((n) => n.hasAttribute(attr))?.children ?? []),
+      ];
+      fill(printHeader.current, frame("data-page-header"));
+      fill(printFooter.current, frame("data-page-footer"));
+      fill(
+        printBody.current,
+        parts.filter(
+          (n) =>
+            !n.hasAttribute("data-page-header") &&
+            !n.hasAttribute("data-page-footer"),
+        ),
+      );
+    };
+    window.addEventListener("beforeprint", fill);
+    return () => window.removeEventListener("beforeprint", fill);
+  }, [editor]);
 
-  const block = editor.state.selection.$from.parent;
-  const mode = (
-    block.attrs.dirLocked ? block.attrs.dir : "auto"
-  ) as DirectionMode;
-  const resolved = block.attrs.dir as string | null;
-  const layout = editor.storage.thaanaKeyboard.layout;
+  if (!editor) return null;
 
   const openContent = (next: JSONContent) => {
     if (onOpenContent) {
@@ -152,7 +166,7 @@ export function Editor({
           <div className="flex shrink-0 items-center gap-2">
             {status}
             <DropdownMenu>
-              <DropdownMenuTrigger className={triggerClass(true)}>
+              <DropdownMenuTrigger className={triggerClass}>
                 File
                 <Icon
                   icon={ArrowDown01Icon}
@@ -194,16 +208,43 @@ export function Editor({
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
-            {onNew && (
-              <button
-                type="button"
-                onClick={onNew}
-                className="inline-flex h-9 items-center gap-1.5 rounded-full bg-primary ps-3 pe-4 text-[14px] text-primary-foreground transition-colors hover:bg-primary-active"
-              >
-                <Icon icon={Add01Icon} className="size-4" />
-                New
-              </button>
-            )}
+            {onNew &&
+              (templates.length > 0 ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger className={newClass}>
+                    <Icon icon={Add01Icon} className="size-4" />
+                    New
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-64">
+                    <DropdownMenuItem onSelect={onNew}>
+                      <Icon icon={Doc01Icon} />
+                      Blank document
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuLabel>From a template</DropdownMenuLabel>
+                    {templates.map((t) => (
+                      <DropdownMenuItem
+                        key={t.id}
+                        onSelect={() => openContent(t.content)}
+                      >
+                        <Icon icon={LicenseDraftIcon} />
+                        {t.title.en}
+                        <span
+                          lang="dv"
+                          className="ms-auto text-[15px] text-muted-foreground"
+                        >
+                          {t.title.dv}
+                        </span>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <button type="button" onClick={onNew} className={newClass}>
+                  <Icon icon={Add01Icon} className="size-4" />
+                  New
+                </button>
+              ))}
             <input
               ref={importInput}
               type="file"
@@ -219,145 +260,11 @@ export function Editor({
       </header>
 
       <div className="sticky top-14 z-10 flex justify-center px-2 pt-4 sm:px-4 print:hidden">
-        <div className="no-scrollbar flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-border bg-card p-1 shadow-soft">
-          <ToolButton
-            label="Bold"
-            pressed={editor.isActive("bold")}
-            onClick={() => editor.chain().focus().toggleBold().run()}
-          >
-            <Icon icon={TextBoldIcon} />
-          </ToolButton>
-          <ToolButton
-            label="Italic"
-            pressed={editor.isActive("italic")}
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-          >
-            <Icon icon={TextItalicIcon} />
-          </ToolButton>
-
-          <Divider />
-
-          <ToggleGroup
-            type="single"
-            aria-label="Paragraph direction"
-            value={mode}
-            onValueChange={(m) => {
-              if (m)
-                editor
-                  .chain()
-                  .focus()
-                  .setParagraphDirection(m as DirectionMode)
-                  .run();
-            }}
-          >
-            {(["auto", "rtl", "ltr"] as const).map((m) => (
-              <ToggleGroupItem
-                key={m}
-                className="px-2 sm:px-3"
-                value={m}
-                title={
-                  m === "auto"
-                    ? "Direction from content"
-                    : `Always ${m.toUpperCase()}`
-                }
-              >
-                {m === "auto"
-                  ? `Auto · ${resolved?.toUpperCase() ?? "–"}`
-                  : m.toUpperCase()}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-
-          <Divider />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              className={triggerClass(false)}
-              aria-label={`Keyboard: ${layout ? "Thaana" : "English"}`}
-            >
-              <Icon icon={KeyboardIcon} />
-              <span className="hidden sm:inline">
-                {layout ? "Thaana" : "English"}
-              </span>
-              <Icon
-                icon={ArrowDown01Icon}
-                className="hidden size-3.5 text-muted-foreground sm:block"
-              />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" className="w-56">
-              <DropdownMenuLabel>Keyboard</DropdownMenuLabel>
-              <DropdownMenuRadioGroup
-                value={layout ? "thaana" : "english"}
-                onValueChange={(v) =>
-                  editor
-                    .chain()
-                    .focus()
-                    .setKeyboardLayout(v === "thaana" ? "phonetic" : null)
-                    .run()
-                }
-              >
-                <DropdownMenuRadioItem value="thaana">
-                  Thaana
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="english">
-                  English
-                </DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-              <DropdownMenuSeparator />
-              <p className="flex items-center gap-1.5 px-2.5 py-1.5 text-[12px] text-muted-foreground">
-                <KbdGroup>
-                  <Kbd>Alt</Kbd>
-                  <span>+</span>
-                  <Kbd>Shift</Kbd>
-                </KbdGroup>
-                to switch
-              </p>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {templates.length > 0 && (
-            <>
-              <Divider />
-              <DropdownMenu>
-                <DropdownMenuTrigger className={triggerClass(false)}>
-                  <Icon icon={LicenseDraftIcon} />
-                  <span className="hidden sm:inline">Templates</span>
-                  <Icon
-                    icon={ArrowDown01Icon}
-                    className="hidden size-3.5 text-muted-foreground sm:block"
-                  />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" className="w-64">
-                  <DropdownMenuLabel>New from template</DropdownMenuLabel>
-                  {templates.map((t) => (
-                    <DropdownMenuItem
-                      key={t.id}
-                      onSelect={() => openContent(t.content)}
-                    >
-                      {t.title.en}
-                      <span
-                        lang="dv"
-                        className="ms-auto text-[15px] text-muted-foreground"
-                      >
-                        {t.title.dv}
-                      </span>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </>
-          )}
-
-          <Divider />
-
-          <ToolButton
-            label="Highlight protected text (English and numbers Liyun keeps in place)"
-            pressed={showIsolation}
-            onClick={() => setShowIsolation(!showIsolation)}
-          >
-            <Icon icon={HighlighterIcon} />
-          </ToolButton>
-        </div>
+        <Toolbar
+          editor={editor}
+          showIsolation={showIsolation}
+          onShowIsolation={setShowIsolation}
+        />
       </div>
 
       <main className="px-4 pt-6 pb-24 print:p-0">
@@ -368,71 +275,35 @@ export function Editor({
               : ""
           }`}
         >
-          <EditorContent editor={editor} />
+          <EditorContent editor={editor} className="print:hidden" />
+          <table className="hidden w-full border-collapse print:table">
+            <thead>
+              <tr>
+                <td ref={printHeader} className={printFrameClass("pb-[8mm]")} />
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <td ref={printFooter} className={printFrameClass("pt-[8mm]")} />
+              </tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td ref={printBody} className={`p-0 ${pageClass}`} />
+              </tr>
+            </tbody>
+          </table>
         </article>
       </main>
     </div>
   );
 }
 
-function Icon({
-  icon,
-  className = "size-[18px]",
-}: {
-  icon: IconSvgElement;
-  className?: string;
-}) {
-  return (
-    <HugeiconsIcon
-      icon={icon}
-      strokeWidth={1.6}
-      className={className}
-      aria-hidden="true"
-    />
-  );
-}
+const printFrameClass = (space: string) =>
+  `p-0 align-top text-[14px] leading-[1.6] text-body empty:hidden ${space}`;
 
-const triggerClass = (outlined: boolean) =>
-  `inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] whitespace-nowrap transition-colors outline-none hover:bg-panel focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-panel ${
-    outlined
-      ? "border border-border bg-card shadow-soft"
-      : "h-8 px-2 text-[13px] text-body sm:px-3"
-  }`;
+const newClass =
+  "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-primary ps-3 pe-4 text-[14px] text-primary-foreground outline-none transition-colors hover:bg-primary-active focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-primary-active";
 
-function Divider() {
-  return (
-    <span
-      aria-hidden
-      className="mx-1 hidden h-5 w-px shrink-0 bg-border sm:block"
-    />
-  );
-}
-
-function ToolButton({
-  label,
-  pressed,
-  onClick,
-  wide,
-  children,
-}: {
-  label: string;
-  pressed: boolean;
-  onClick: () => void;
-  wide?: boolean;
-  children: ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      title={label}
-      aria-label={label}
-      aria-pressed={pressed}
-      onClick={onClick}
-      className={`inline-flex h-8 shrink-0 items-center justify-center rounded-full text-[13px] whitespace-nowrap text-body transition-colors hover:bg-panel aria-pressed:bg-primary aria-pressed:text-primary-foreground ${
-        wide ? "px-3" : "w-8"
-      }`}
-    >
-      {children}
-    </button>
-  );
-}
+const triggerClass =
+  "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-[14px] whitespace-nowrap shadow-soft outline-none transition-colors hover:bg-panel focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-panel";

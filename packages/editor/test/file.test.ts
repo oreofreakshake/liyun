@@ -5,7 +5,12 @@ const content = { type: "doc", content: [{ type: "paragraph" }] };
 
 test("a backup round-trips", () => {
   const text = JSON.stringify(toDocumentFile(content));
-  expect(parseDocumentFile(text)).toEqual({ version: 1, content });
+  expect(parseDocumentFile(text)).toEqual({ version: 2, content });
+});
+
+test("version 1 backups open as the current version", () => {
+  const text = JSON.stringify({ version: 1, content });
+  expect(parseDocumentFile(text)).toEqual({ version: 2, content });
 });
 
 test("rejects files that are not backups", () => {
@@ -21,15 +26,21 @@ test("rejects backups from a newer version", () => {
   ).toThrow("newer version");
 });
 
+const doc = (texts: string[]) => ({
+  type: "doc",
+  content: texts.map((text) => ({
+    type: "paragraph",
+    content: text ? [{ type: "text", text }] : [],
+  })),
+});
+
+test("titleOf skips an Arabic opening line such as the Bismillah", async () => {
+  const { titleOf } = await import("../src/document");
+  expect(titleOf(doc(["بسم الله الرحمن الرحيم", "ސިޓީ"]))).toBe("ސިޓީ");
+});
+
 test("titleOf takes the first non-empty line and shortens it", async () => {
   const { titleOf } = await import("../src/document");
-  const doc = (texts: string[]) => ({
-    type: "doc",
-    content: texts.map((text) => ({
-      type: "paragraph",
-      content: text ? [{ type: "text", text }] : [],
-    })),
-  });
   expect(titleOf(doc(["", "  ބައްދަލުވުން (Meeting 2026)  ", "x"]))).toBe(
     "ބައްދަލުވުން (Meeting 2026)",
   );

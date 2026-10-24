@@ -1,6 +1,6 @@
 import type { JSONContent } from "@tiptap/core";
 
-export const DOCUMENT_VERSION = 1;
+export const DOCUMENT_VERSION = 2;
 
 export type DocumentFile = {
   version: typeof DOCUMENT_VERSION;
@@ -13,16 +13,19 @@ export type Template = DocumentFile & {
   license: "Apache-2.0";
 };
 
+const frameParts = ["pageHeader", "pageFooter"];
+const arabicOnly = /^[\u0600-\u06FF\s]+$/;
+
 export function titleOf(content: JSONContent, max = 60): string {
   const lines: string[] = [];
   const walk = (node: JSONContent) => {
-    if (lines.length) return;
+    if (lines.length || frameParts.includes(node.type ?? "")) return;
     if (node.type === "paragraph" || node.type === "heading") {
       const text = (node.content ?? [])
         .map((n) => (n as { text?: string }).text ?? " ")
         .join("")
         .trim();
-      if (text) lines.push(text);
+      if (text && !arabicOnly.test(text)) lines.push(text);
       return;
     }
     node.content?.forEach(walk);

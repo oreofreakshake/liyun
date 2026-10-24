@@ -1,10 +1,10 @@
 import "fake-indexeddb/auto";
 import { describe, expect, test } from "bun:test";
-import type { DocumentFile } from "editor";
+import { DOCUMENT_VERSION, type DocumentFile } from "editor";
 import { type DocumentStore, IndexedDbStore, MemoryStore } from "../src";
 
 const file = (text: string): DocumentFile => ({
-  version: 1,
+  version: DOCUMENT_VERSION,
   content: {
     type: "doc",
     content: [{ type: "paragraph", content: [{ type: "text", text }] }],

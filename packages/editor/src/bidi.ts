@@ -9,7 +9,7 @@ import { Plugin, PluginKey, type Transaction } from "@tiptap/pm/state";
 import { type Direction, ltrRuns, paragraphDirection } from "thaana-bidi";
 
 const directedBlocks = ["paragraph", "heading"];
-const directedContainers = ["orderedList", "bulletList", "blockquote"];
+const directedContainers = ["orderedList", "bulletList", "blockquote", "table"];
 
 export const LtrIsolate = Mark.create({
   name: "ltrIsolate",

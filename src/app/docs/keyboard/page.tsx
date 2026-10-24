@@ -1,4 +1,3 @@
-import { Kbd, KbdGroup } from "editor/ui/kbd";
 import type { Metadata } from "next";
 import { KeyboardMap } from "@/components/keyboard-map";
 

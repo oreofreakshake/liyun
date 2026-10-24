@@ -4,6 +4,72 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "MV Faseyha";
+  src: url("/fonts/thaana/mv-faseyha/faseyha-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F;
+}
+
+@font-face {
+  font-family: "MV Faseyha";
+  src: url("/fonts/thaana/mv-faseyha/faseyha-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F;
+}
+
+@font-face {
+  font-family: "MV Kelaa";
+  src: url("/fonts/thaana/mv-kelaa/kelaa-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F;
+}
+
+@font-face {
+  font-family: "MV Kelaa";
+  src: url("/fonts/thaana/mv-kelaa/kelaa-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F;
+}
+
+@font-face {
+  font-family: "MV Typewriter";
+  src: url("/fonts/thaana/mv-typewriter/typewriter-regular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F;
+}
+
+@font-face {
+  font-family: "MV Typewriter";
+  src: url("/fonts/thaana/mv-typewriter/typewriter-semibold.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-display: swap;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F;
+}
+
+@font-face {
+  font-family: "MV Typewriter";
+  src: url("/fonts/thaana/mv-typewriter/typewriter-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F;
+}
+
+@font-face {
+  font-family: "MV A Waheed";
+  src: url("/fonts/thaana/mv-a-waheed/a-waheed-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F;
+}
+
 :root {
   color-scheme: light;
   --canvas: #fdfcfc;
@@ -207,4 +273,63 @@
   .protected {
     animation: none;
   }
+}
+
+.ProseMirror {
+  display: flex;
+  flex-direction: column;
+}
+
+.ProseMirror > * {
+  flex: none;
+}
+
+.ProseMirror [data-page-header],
+.ProseMirror [data-page-footer] {
+  position: relative;
+  font-size: 14px;
+  color: var(--body);
+  border-color: var(--border-strong);
+  border-style: dashed;
+}
+
+.ProseMirror [data-page-header] {
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom-width: 1px;
+}
+
+.ProseMirror [data-page-footer] {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top-width: 1px;
+}
+
+.ProseMirror > :has(+ [data-page-footer]) {
+  margin-bottom: 2rem;
+}
+
+.ProseMirror [data-page-header]::before,
+.ProseMirror [data-page-footer]::before {
+  position: absolute;
+  inset-inline-start: 0;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--muted-foreground);
+  letter-spacing: 0.02em;
+}
+
+.ProseMirror [data-page-header]::before {
+  content: "Header";
+  top: -1.25rem;
+}
+
+.ProseMirror [data-page-footer]::after {
+  content: "Footer";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -1.25rem;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--muted-foreground);
 }

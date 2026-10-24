@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "id": "official-letter",
   "title": {
     "dv": "ރަސްމީ ސިޓީ",
@@ -13,114 +13,36 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": "center",
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
         "content": [
           {
             "type": "text",
-            "text": "[ދައުލަތުގެ ނިޝާން]"
-          }
-        ]
-      },
-      {
-        "type": "heading",
-        "attrs": {
-          "textAlign": "center",
-          "dir": "rtl",
-          "dirLocked": false,
-          "level": 2
-        },
-        "content": [
-          {
-            "type": "text",
-            "text": "[އިދާރާގެ ނަން]"
+            "text": "بسم الله الرحمن الرحيم"
           }
         ]
       },
       {
         "type": "paragraph",
         "attrs": {
-          "textAlign": "center",
+          "textAlign": "end",
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
         "content": [
           {
             "type": "text",
-            "text": "[ރަށް]، ދިވެހިރާއްޖެ"
-          }
-        ]
-      },
-      {
-        "type": "paragraph",
-        "attrs": {
-          "textAlign": null,
-          "dir": "rtl",
-          "dirLocked": false
-        },
-        "content": [
-          {
-            "type": "text",
-            "text": "ނަންބަރު: "
-          },
-          {
-            "type": "text",
-            "marks": [
-              {
-                "type": "ltrIsolate"
-              }
-            ],
-            "text": "[000-XX/2026/000]"
-          }
-        ]
-      },
-      {
-        "type": "paragraph",
-        "attrs": {
-          "textAlign": null,
-          "dir": "rtl",
-          "dirLocked": false
-        },
-        "content": [
-          {
-            "type": "text",
-            "text": "ތާރީޚް: [ތާރީޚް]"
-          }
-        ]
-      },
-      {
-        "type": "paragraph",
-        "attrs": {
-          "textAlign": null,
-          "dir": "rtl",
-          "dirLocked": false
-        },
-        "content": [
-          {
-            "type": "text",
-            "text": "[ނަން]،"
+            "text": "[ގޭގެ ނަން]"
           },
           {
             "type": "hardBreak"
           },
           {
             "type": "text",
-            "text": "[މަޤާމު]،"
-          },
-          {
-            "type": "hardBreak"
-          },
-          {
-            "type": "text",
-            "text": "[އިދާރާގެ ނަން]،"
-          },
-          {
-            "type": "hardBreak"
-          },
-          {
-            "type": "text",
-            "text": "[ރަށް]، ދިވެހިރާއްޖެ."
+            "text": "[ރަށް]"
           }
         ]
       },
@@ -128,13 +50,14 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
         "content": [
           {
             "type": "text",
-            "text": "އައްސަލާމް ޢަލައިކުމް،"
+            "text": "[އިދާރާގެ ނަން]ގެ [މަޤާމު] [ނަން]އަށް،"
           }
         ]
       },
@@ -142,39 +65,37 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
         "content": [
           {
             "type": "text",
-            "marks": [
-              {
-                "type": "bold"
-              }
-            ],
-            "text": "މައުޟޫޢު: [މައުޟޫޢު]"
+            "text": "ވެދުން ސަލާމަށް ފަހު ދަންނަވަމެވެ."
           }
         ]
       },
       {
         "type": "paragraph",
         "attrs": {
-          "textAlign": null,
+          "textAlign": "justify",
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
         "content": [
           {
             "type": "text",
-            "text": "ދަންނަވަމެވެ."
+            "text": "[ސިޓީގެ ތަފްޞީލު]"
           }
         ]
       },
       {
         "type": "paragraph",
         "attrs": {
-          "textAlign": null,
+          "textAlign": "justify",
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -189,20 +110,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
-          "dir": "rtl",
-          "dirLocked": false
-        },
-        "content": [
-          {
-            "type": "text",
-            "text": "ވީމާ، މިކަން މަޢުލޫމާތަށްޓަކައި ދެންނެވީމެވެ."
-          }
-        ]
-      },
-      {
-        "type": "paragraph",
-        "attrs": {
-          "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -217,6 +125,37 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "[ތާރީޚް]"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "indent": 0,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "ޚާދިމުކުމް،"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -231,6 +170,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -244,7 +184,29 @@
           },
           {
             "type": "text",
-            "text": "[މަޤާމު]"
+            "text": "[ކާޑު ނަންބަރު]"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": "end",
+          "indent": 0,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "[އިދާރާގެ ނަން]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "[ރަށް]، ދިވެހިރާއްޖެ"
           }
         ]
       }

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "id": "invoice",
   "title": {
     "dv": "އިންވޮއިސް",
@@ -13,6 +13,7 @@
         "type": "heading",
         "attrs": {
           "textAlign": "center",
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false,
           "level": 2
@@ -28,6 +29,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": "center",
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -70,6 +72,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -100,6 +103,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -153,6 +157,7 @@
                 "type": "paragraph",
                 "attrs": {
                   "textAlign": null,
+                  "indent": 0,
                   "dir": "rtl",
                   "dirLocked": false
                 },
@@ -207,6 +212,7 @@
                 "type": "paragraph",
                 "attrs": {
                   "textAlign": null,
+                  "indent": 0,
                   "dir": "rtl",
                   "dirLocked": false
                 },
@@ -260,6 +266,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": "end",
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -323,6 +330,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },

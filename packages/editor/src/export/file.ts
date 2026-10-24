@@ -21,7 +21,7 @@ export function parseDocumentFile(text: string): DocumentFile {
       "This backup was made by a newer version of the editor. Update and try again.",
     );
   }
-  return file as DocumentFile;
+  return { version: DOCUMENT_VERSION, content: file.content };
 }
 
 export function download(blob: Blob, filename: string) {

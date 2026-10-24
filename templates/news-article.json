@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "id": "news-article",
   "title": {
     "dv": "ޚަބަރު",
@@ -13,6 +13,7 @@
         "type": "heading",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false,
           "level": 1
@@ -28,6 +29,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -42,6 +44,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -56,6 +59,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -70,6 +74,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
@@ -84,6 +89,7 @@
         "type": "paragraph",
         "attrs": {
           "textAlign": null,
+          "indent": 0,
           "dir": "rtl",
           "dirLocked": false
         },
