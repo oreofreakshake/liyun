@@ -16,7 +16,6 @@ export default function KeyboardDocs() {
       <h2>The layout</h2>
 
       <KeyboardMap />
-
     </>
   );
 }

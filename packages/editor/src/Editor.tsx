@@ -178,7 +178,7 @@ export function Editor({
                 </DropdownMenuItem>
                 <DropdownMenuItem onSelect={() => fileAction("print")}>
                   <Icon icon={PrinterIcon} />
-                  Print or save as PDF
+                  Save as PDF
                 </DropdownMenuItem>
                 {onDelete && (
                   <>
