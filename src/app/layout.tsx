@@ -7,9 +7,25 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
 });
 
+const description = "An intuitive Dhivehi text editor";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
   title: "Liyun",
-  description: "An intuitive Dhivehi text editor",
+  description,
+  openGraph: {
+    title: "Liyun",
+    description,
+    siteName: "Liyun",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Liyun",
+    description,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
