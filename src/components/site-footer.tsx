@@ -1,46 +1,25 @@
 import Link from "next/link";
 import { Wordmark } from "@/components/logo";
 
-const columns: { title: string; links: [string, string][] }[] = [
-  {
-    title: "Product",
-    links: [
-      ["Editor", "/write"],
-      ["Templates", "/docs/templates"],
-    ],
-  },
-  {
-    title: "Docs",
-    links: [
-      ["Getting started", "/docs"],
-      ["Writing mixed text", "/docs/writing"],
-      ["Thaana keyboard", "/docs/keyboard"],
-      ["Export", "/docs/export"],
-    ],
-  },
+const links: [string, string][] = [
+  ["Privacy", "/privacy"],
+  ["Terms", "/terms"],
 ];
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-border">
-      <div className="mx-auto grid max-w-[1180px] gap-10 px-6 py-16 md:border-x md:border-border sm:grid-cols-[1fr_auto_auto] sm:gap-20 md:px-8">
-        <div>
+      <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-6 px-6 py-10 md:border-x md:border-border md:px-8">
+        <Link href="/" aria-label="Liyun home">
           <Wordmark />
-        </div>
-        {columns.map((c) => (
-          <div key={c.title}>
-            <p className="text-[14px] font-medium">{c.title}</p>
-            <ul className="mt-3 space-y-2 text-[14px] text-body">
-              {c.links.map(([label, href]) => (
-                <li key={href}>
-                  <Link href={href} className="hover:text-foreground">
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        </Link>
+        <nav className="flex gap-6 text-[14px] text-body">
+          {links.map(([label, href]) => (
+            <Link key={href} href={href} className="hover:text-foreground">
+              {label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </footer>
   );

@@ -2,6 +2,7 @@ import type { JSONContent } from "@tiptap/core";
 import {
   AlignmentType,
   Document,
+  PageBreak as DocxPageBreak,
   Footer,
   Header,
   HeadingLevel,
@@ -130,6 +131,8 @@ function blocks(node: JSONContent, ctx: Context): Block[] {
       return (node.content ?? []).flatMap((n) => blocks(n, ctx));
     case "table":
       return [table(node, ctx)];
+    case "pageBreak":
+      return [new Paragraph({ children: [new DocxPageBreak()] })];
     default:
       return node.content
         ? [paragraph({ type: "paragraph", content: node.content }, ctx)]

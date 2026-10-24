@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { Amiri, DM_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
+});
+
+const amiri = Amiri({
+  variable: "--font-arabic",
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+  display: "swap",
+  adjustFontFallback: false,
 });
 
 const rasmee = localFont({
@@ -52,7 +60,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       dir="ltr"
-      className={`${dmSans.variable} ${rasmee.variable} h-full`}
+      className={`${dmSans.variable} ${rasmee.variable} ${amiri.variable} h-full`}
     >
       <body className="min-h-full">{children}</body>
     </html>

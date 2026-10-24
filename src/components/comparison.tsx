@@ -74,10 +74,7 @@ export function Comparison() {
               className={cell(i, i === 0 ? "snap-start" : "")}
             >
               {e.before}
-              <bdi
-                dir="ltr"
-                className="rounded-md bg-orb-sky/40 px-1 py-0.5 whitespace-nowrap [box-decoration-break:clone]"
-              >
+              <bdi dir="ltr" className="run-mark whitespace-nowrap">
                 {e.run}
               </bdi>
               {e.after}

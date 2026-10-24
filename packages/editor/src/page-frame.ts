@@ -9,6 +9,9 @@ declare module "@tiptap/core" {
     pageFrame: {
       togglePageFrame: (part: FramePart) => ReturnType;
     };
+    pageBreak: {
+      setPageBreak: () => ReturnType;
+    };
   }
 }
 
@@ -53,5 +56,48 @@ export const PageFooter = frame("pageFooter", "data-page-footer").extend({
           return true;
         },
     };
+  },
+});
+
+export const PageBreak = Node.create({
+  name: "pageBreak",
+  group: "block",
+  atom: true,
+  selectable: true,
+  parseHTML: () => [{ tag: "div[data-page-break]" }],
+  renderHTML: () => ["div", { "data-page-break": "" }],
+
+  addCommands() {
+    return {
+      setPageBreak:
+        () =>
+        ({ state, tr, dispatch }) => {
+          const { $from } = state.selection;
+          if ($from.depth !== 1 || !$from.parent.isTextblock) return false;
+          if (!dispatch) return true;
+          const { schema } = state;
+          const at = $from.parentOffset;
+          const end = $from.parent.content.size;
+          let pos: number;
+          if (at === 0 && end > 0) pos = $from.before();
+          else if (at === end) pos = $from.after();
+          else {
+            tr.split($from.pos);
+            pos = $from.pos + 1;
+          }
+          tr.insert(pos, schema.nodes.pageBreak.create());
+          const after = pos + 1;
+          if (!tr.doc.nodeAt(after)?.isTextblock) {
+            tr.insert(after, schema.nodes.paragraph.create());
+          }
+          tr.setSelection(TextSelection.create(tr.doc, after + 1));
+          dispatch(tr.scrollIntoView());
+          return true;
+        },
+    };
+  },
+
+  addKeyboardShortcuts() {
+    return { "Mod-Enter": () => this.editor.commands.setPageBreak() };
   },
 });

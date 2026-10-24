@@ -13,8 +13,8 @@ export default function TemplatesDocs() {
 
       <h2>Using a template</h2>
       <p>
-        In the editor, open <strong>Templates</strong> and pick one. It opens as
-        a new document, so nothing you have written is replaced. Replace the
+        In the editor, open <strong>New</strong> and pick a template. It opens
+        as a new document, so nothing you have written is replaced. Replace the
         parts in brackets, like <span lang="dv">[ނަން]</span>, with your own text.
       </p>
 

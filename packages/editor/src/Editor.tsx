@@ -16,6 +16,7 @@ import { type ReactNode, useEffect, useReducer, useRef, useState } from "react";
 import type { Template } from "./document";
 import { download, parseDocumentFile, toDocumentFile } from "./export/file";
 import { coreExtensionOptions, editorExtensions } from "./extensions";
+import { PageMarks } from "./page-marks";
 import { Icon, Toolbar } from "./toolbar";
 import {
   DropdownMenu,
@@ -83,6 +84,7 @@ export function Editor({
     };
   }, [editor]);
 
+  const pageRef = useRef<HTMLElement>(null);
   const printHeader = useRef<HTMLTableCellElement>(null);
   const printBody = useRef<HTMLTableCellElement>(null);
   const printFooter = useRef<HTMLTableCellElement>(null);
@@ -269,13 +271,13 @@ export function Editor({
 
       <main className="px-4 pt-6 pb-24 print:p-0">
         <article
-          className={`mx-auto w-full max-w-[794px] rounded-xl border border-border bg-card px-6 py-10 shadow-soft sm:px-16 sm:py-16 md:px-24 md:py-20 print:max-w-none print:rounded-none print:border-0 print:p-0 print:shadow-none ${
-            showIsolation
-              ? "[&_bdi]:rounded-md [&_bdi]:bg-orb-sky/40 [&_bdi]:px-0.5 [&_bdi]:[box-decoration-break:clone]"
-              : ""
+          ref={pageRef}
+          className={`relative mx-auto w-full max-w-[794px] rounded-xl border border-border bg-card px-(--page-x) py-(--page-y) shadow-soft [--page-x:1.5rem] [--page-y:2.5rem] sm:[--page-x:4rem] sm:[--page-y:4rem] md:[--page-x:76px] md:[--page-y:76px] print:max-w-none print:rounded-none print:border-0 print:p-0 print:shadow-none ${
+            showIsolation ? "show-runs" : ""
           }`}
         >
           <EditorContent editor={editor} className="print:hidden" />
+          <PageMarks editor={editor} page={pageRef} />
           <table className="hidden w-full border-collapse print:table">
             <thead>
               <tr>

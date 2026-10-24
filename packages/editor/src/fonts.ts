@@ -11,7 +11,7 @@ export const thaanaFonts: ThaanaFont[] = [
 export const fontSizes = [12, 14, 16, 18, 20, 24, 28, 32, 40];
 
 export const fontStack = (family: string) =>
-  `"${family}", var(--font-dm-sans), sans-serif`;
+  `"${family}", var(--font-dm-sans), var(--font-arabic), sans-serif`;
 
 export const familyOf = (stack: string | null | undefined) =>
   stack?.match(/^"([^"]+)"/)?.[1] ?? stack ?? null;

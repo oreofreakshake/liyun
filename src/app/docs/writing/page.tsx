@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 export const metadata: Metadata = { title: "Documentation | Liyun" };
 
 const Run = ({ children }: { children: ReactNode }) => (
-  <bdi dir="ltr" className="rounded-md bg-orb-sky/40 px-1 py-0.5">
+  <bdi dir="ltr" className="run-mark">
     {children}
   </bdi>
 );

@@ -52,11 +52,13 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
     pending.current = null;
     setSaveState("saving");
     try {
+      const title = titleOf(edit.content);
       await documentStore().save({
         id: edit.id,
-        title: titleOf(edit.content),
+        title,
         file: { version: DOCUMENT_VERSION, content: edit.content },
       });
+      setCurrent((doc) => (doc?.id === edit.id ? { ...doc, title } : doc));
       setSaveState("saved");
       await refreshList();
     } catch {

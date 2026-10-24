@@ -6,7 +6,12 @@ import StarterKit from "@tiptap/starter-kit";
 import { BidiParagraphs, LtrIsolate } from "./bidi";
 import { Indent } from "./indent";
 import type { LayoutId } from "./layouts";
-import { FramedDocument, PageFooter, PageHeader } from "./page-frame";
+import {
+  FramedDocument,
+  PageBreak,
+  PageFooter,
+  PageHeader,
+} from "./page-frame";
 import { ThaanaKeyboard } from "./thaana-keyboard";
 
 export function editorExtensions({
@@ -22,6 +27,7 @@ export function editorExtensions({
     FramedDocument,
     PageHeader,
     PageFooter,
+    PageBreak,
     TextAlign.configure({
       types: ["heading", "paragraph"],
       alignments: ["start", "center", "end", "justify"],

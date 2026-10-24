@@ -12,6 +12,7 @@ import {
   RedoIcon,
   RightToLeftListBulletIcon,
   RightToLeftListNumberIcon,
+  SeparatorHorizontalIcon,
   TableIcon,
   TextAlignCenterIcon,
   TextAlignJustifyCenterIcon,
@@ -37,6 +38,7 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Kbd, KbdGroup } from "./ui/kbd";
@@ -63,6 +65,11 @@ const directions: { value: DirectionMode; label: string; hint: string }[] = [
   { value: "rtl", label: "RTL", hint: "Right to left" },
   { value: "ltr", label: "LTR", hint: "Left to right" },
 ];
+
+const modKey =
+  typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform)
+    ? "⌘"
+    : "Ctrl";
 
 export function Toolbar({
   editor,
@@ -352,12 +359,18 @@ export function Toolbar({
       </Menu>
 
       <Menu
-        label="Header and footer"
+        label="Page"
         trigger={<Icon icon={Layout3RowIcon} />}
         pressed={hasHeader || hasFooter}
         width="w-52"
       >
-        <DropdownMenuLabel>Every page</DropdownMenuLabel>
+        <DropdownMenuItem onSelect={() => chain().setPageBreak().run()}>
+          <Icon icon={SeparatorHorizontalIcon} />
+          Page break
+          <DropdownMenuShortcut>{modKey} Enter</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel>On every page</DropdownMenuLabel>
         <DropdownMenuCheckboxItem
           checked={hasHeader}
           onSelect={() => chain().togglePageFrame("pageHeader").run()}

@@ -59,3 +59,48 @@ test("header and footer become Word headers and footers", async () => {
   expect(body).toContain("ސިޓީ");
   expect(body).not.toContain("ހަދު");
 });
+
+const pageBreakCases = [
+  {
+    name: "at the end",
+    at: (len: number) => len,
+    want: ["paragraph", "pageBreak", "paragraph"],
+  },
+  { name: "at the start", at: () => 0, want: ["pageBreak", "paragraph"] },
+  {
+    name: "in the middle",
+    at: () => 2,
+    want: ["paragraph", "pageBreak", "paragraph"],
+  },
+];
+
+test.each(pageBreakCases)("a page break $name of a paragraph", ({
+  at,
+  want,
+}) => {
+  editor = createEditor("<p>ލިޔުން</p>");
+  const len = editor.state.doc.firstChild?.content.size ?? 0;
+  editor.commands.setTextSelection(1 + at(len));
+  expect(editor.commands.setPageBreak()).toBe(true);
+  expect(types()).toEqual(want);
+  expect(editor.state.doc.textContent).toBe("ލިޔުން");
+  expect(editor.state.selection.$from.parent.type.name).toBe("paragraph");
+});
+
+test("no page breaks inside tables or the header", () => {
+  editor = createEditor("<p>ލިޔުން</p>");
+  editor.commands.togglePageFrame("pageHeader");
+  expect(editor.commands.setPageBreak()).toBe(false);
+  editor.commands.togglePageFrame("pageHeader");
+  editor.commands.insertTable({ rows: 2, cols: 2 });
+  expect(editor.commands.setPageBreak()).toBe(false);
+});
+
+test("page breaks reach Word", async () => {
+  editor = createEditor("<p>a</p><div data-page-break></div><p>b</p>");
+  const zip = await JSZip.loadAsync(
+    await Packer.toBuffer(toDocx(editor.getJSON())),
+  );
+  const body = await zip.file("word/document.xml")?.async("string");
+  expect(body).toContain('<w:br w:type="page"/>');
+});
