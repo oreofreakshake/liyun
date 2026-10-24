@@ -1,0 +1,102 @@
+[
+  {
+    "id": "percent",
+    "text": "ތަރައްގީ 50% އަށް އިތުރުވި",
+    "direction": "rtl",
+    "expected": ["އިތުރުވި", " ", "އަށް", " ", "50", "%", " ", "ތަރައްގީ"],
+    "reference": ["50%"],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": true
+    },
+    "source": "reported",
+    "note": "Thaana is bidi class AL, so 50 is treated as an Arabic number and % jumps to its left (%50). Dhivehi writes 50%."
+  },
+  {
+    "id": "percent-short",
+    "text": "ބޮޑުވީ 50% އިން",
+    "direction": "rtl",
+    "expected": ["އިން", " ", "50", "%", " ", "ބޮޑުވީ"],
+    "reference": ["50%"],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": true
+    },
+    "source": "reported",
+    "note": "Same bug, % before a postposition."
+  },
+  {
+    "id": "quote-welcome",
+    "text": "ރައީސް ވިދާޅުވީ \"Welcome to Maldives!\" މިހެންނެވެ.",
+    "direction": "rtl",
+    "expected": [
+      ".",
+      "މިހެންނެވެ",
+      " ",
+      "\"",
+      "Welcome",
+      " ",
+      "to",
+      " ",
+      "Maldives",
+      "!",
+      "\"",
+      " ",
+      "ވިދާޅުވީ",
+      " ",
+      "ރައީސް"
+    ],
+    "reference": ["Welcome to Maldives!"],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": true
+    },
+    "source": "reported: newsroom pattern",
+    "note": "! jumps to the front of the English quote."
+  },
+  {
+    "id": "regulation-number",
+    "text": "ގަވާއިދު ނަންބަރު 2023/R-105 ގެ ދަށުން",
+    "direction": "rtl",
+    "expected": [
+      "ދަށުން",
+      " ",
+      "ގެ",
+      " ",
+      "2023",
+      "/",
+      "R",
+      "-",
+      "105",
+      " ",
+      "ނަންބަރު",
+      " ",
+      "ގަވާއިދު"
+    ],
+    "reference": ["2023/R-105"],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": true
+    },
+    "source": "reported: gazette pattern",
+    "note": "Segments invert: R-105/2023."
+  },
+  {
+    "id": "currency-dollar",
+    "text": "ޓިކެޓުގެ އަގަކީ $150 އެވެ.",
+    "direction": "rtl",
+    "expected": [".", "އެވެ", " ", "$", "150", " ", "އަގަކީ", " ", "ޓިކެޓުގެ"],
+    "reference": ["$150"],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": true
+    },
+    "source": "reported",
+    "note": "$ jumps to the other side: 150$."
+  }
+]

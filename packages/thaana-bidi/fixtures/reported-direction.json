@@ -1,0 +1,42 @@
+[
+  {
+    "id": "acronym-starts-line",
+    "text": "HRCM އިން ނެރުނު ބަޔާން",
+    "direction": "rtl",
+    "expected": ["ބަޔާން", " ", "ނެރުނު", " ", "އިން", " ", "HRCM"],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": true,
+      "withoutIsolation": false
+    },
+    "source": "reported: newsroom pattern",
+    "note": "Acronym + postposition at line start. First-letter detection makes the paragraph LTR and HRCM jumps to the other end."
+  },
+  {
+    "id": "acronym-brackets",
+    "text": "މޯލްޑިވްސް މަނިޓަރީ އޮތޯރިޓީ (MMA) އިން",
+    "direction": "rtl",
+    "expected": [
+      "އިން",
+      " ",
+      "(",
+      "MMA",
+      ")",
+      " ",
+      "އޮތޯރިޓީ",
+      " ",
+      "މަނިޓަރީ",
+      " ",
+      "މޯލްޑިވްސް"
+    ],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": false
+    },
+    "source": "reported: newsroom pattern",
+    "note": "Fine in RTL; the brackets and word order break in an LTR container."
+  }
+]

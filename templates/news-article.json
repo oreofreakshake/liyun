@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "id": "news-article",
+  "title": {
+    "dv": "ޚަބަރު",
+    "en": "News article"
+  },
+  "license": "Apache-2.0",
+  "content": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "heading",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false,
+          "level": 1
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "[ސުރުޚީ]"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "[ތާރީޚް] | [ރަށް] — [ނޫސްވެރިޔާގެ ނަން]"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "[ޚަބަރުގެ ފުރަތަމަ ޕެރެގްރާފް]"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "[ތަފްޞީލު]"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "\"[ޤައުލު]،\" [ނަން] ވިދާޅުވިއެވެ."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "[އިދާރާގެ ނަން] "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "([ACRONYM])"
+          },
+          {
+            "type": "text",
+            "text": " އިން [ތަފްޞީލު]"
+          }
+        ]
+      }
+    ]
+  }
+}

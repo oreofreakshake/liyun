@@ -1,0 +1,97 @@
+[
+  {
+    "id": "cpp",
+    "text": "މި ޕްރޮގްރާމް ލިޔެފައިވަނީ C++ އިން",
+    "direction": "rtl",
+    "expected": [
+      "އިން",
+      " ",
+      "C",
+      "+",
+      "+",
+      " ",
+      "ލިޔެފައިވަނީ",
+      " ",
+      "ޕްރޮގްރާމް",
+      " ",
+      "މި"
+    ],
+    "reference": ["C++"],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": true
+    },
+    "source": "synthetic",
+    "note": "Trailing neutrals after a Latin word jump to its left: shows ++C."
+  },
+  {
+    "id": "phone-number",
+    "text": "ގުޅުއްވާނީ +960 333 4444 އަށް",
+    "direction": "rtl",
+    "expected": ["އަށް", " ", "+", "960", " ", "333", " ", "4444", " ", "ގުޅުއްވާނީ"],
+    "reference": ["+960 333 4444"],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": true
+    },
+    "source": "synthetic",
+    "note": "Number groups separated by spaces reverse order: 4444 333 960+."
+  },
+  {
+    "id": "hashtag",
+    "text": "ހޭޝްޓެގް #VisitMaldives ބޭނުންކުރޭ",
+    "direction": "rtl",
+    "expected": ["ބޭނުންކުރޭ", " ", "#", "VisitMaldives", " ", "ހޭޝްޓެގް"],
+    "reference": ["#VisitMaldives"],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": true
+    },
+    "source": "synthetic",
+    "note": "Leading # moves to the end: VisitMaldives#."
+  },
+  {
+    "id": "quoted-exclamation",
+    "text": "ނަމަކީ \"Hello World!\" އެވެ",
+    "direction": "rtl",
+    "expected": ["އެވެ", " ", "\"", "Hello", " ", "World", "!", "\"", " ", "ނަމަކީ"],
+    "reference": ["Hello World!"],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": true
+    },
+    "source": "synthetic",
+    "note": "Trailing ! inside an English quote moves to the front: !Hello World."
+  },
+  {
+    "id": "url-trailing-slash",
+    "text": "ވެބްސައިޓް https://example.mv/ ގައި",
+    "direction": "rtl",
+    "expected": [
+      "ގައި",
+      " ",
+      "https",
+      ":",
+      "/",
+      "/",
+      "example",
+      ".",
+      "mv",
+      "/",
+      " ",
+      "ވެބްސައިޓް"
+    ],
+    "reference": ["https://example.mv/"],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": true
+    },
+    "source": "synthetic",
+    "note": "Trailing / of a URL moves to the front."
+  }
+]

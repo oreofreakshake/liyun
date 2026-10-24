@@ -1,0 +1,37 @@
+{
+  "name": "editor",
+  "version": "0.0.0",
+  "dependencies": {
+    "@hugeicons/core-free-icons": "4.3.5",
+    "@hugeicons/react": "1.1.10",
+    "@tiptap/core": "3.32.0",
+    "@tiptap/extension-text-align": "3.32.0",
+    "@tiptap/pm": "3.32.0",
+    "@tiptap/react": "3.32.0",
+    "@tiptap/starter-kit": "3.32.0",
+    "clsx": "2.1.1",
+    "docx": "9.14.0",
+    "radix-ui": "1.8.1",
+    "tailwind-merge": "3.7.0",
+    "thaana-bidi": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./layouts": "./src/layouts.ts",
+    "./ui/dropdown-menu": "./src/ui/dropdown-menu.tsx"
+  },
+  "private": true,
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "bun test"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@happy-dom/global-registrator": "21.0.4",
+    "jszip": "3.10.1"
+  }
+}

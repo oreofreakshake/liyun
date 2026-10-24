@@ -1,0 +1,449 @@
+{
+  "version": 1,
+  "id": "meeting-minutes",
+  "title": {
+    "dv": "ޔައުމިއްޔާ",
+    "en": "Meeting minutes"
+  },
+  "license": "Apache-2.0",
+  "content": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "heading",
+        "attrs": {
+          "textAlign": "center",
+          "dir": "rtl",
+          "dirLocked": false,
+          "level": 2
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "[ކޮމިޓީ / ކައުންސިލްގެ ނަން]"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": "center",
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              },
+              {
+                "type": "bold"
+              }
+            ],
+            "text": "[00]"
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ],
+            "text": " ވަނަ ޢާންމު ޖަލްސާގެ ޔައުމިއްޔާ"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "ތާރީޚް: [ތާރީޚް]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "ވަގުތު: "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "[00:00]"
+          },
+          {
+            "type": "text",
+            "text": " އިން "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "[00:00]"
+          },
+          {
+            "type": "text",
+            "text": " އަށް"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "ތަން: [ތަން]"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false,
+          "level": 3
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "ޙާޟިރުވި ބޭފުޅުން"
+          }
+        ]
+      },
+      {
+        "type": "orderedList",
+        "attrs": {
+          "dir": "rtl",
+          "start": 1,
+          "type": null
+        },
+        "content": [
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "[ނަން] - [މަޤާމު] (ރިޔާސަތު)"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "[ނަން] - [މަޤާމު]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false,
+          "level": 3
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "ސަލާމުގައި ތިއްބެވި ބޭފުޅުން"
+          }
+        ]
+      },
+      {
+        "type": "orderedList",
+        "attrs": {
+          "dir": "rtl",
+          "start": 1,
+          "type": null
+        },
+        "content": [
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "[ނަން] - [މަޤާމު]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false,
+          "level": 3
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "ބައިވެރިވި އެހެނިހެން ބޭފުޅުން"
+          }
+        ]
+      },
+      {
+        "type": "orderedList",
+        "attrs": {
+          "dir": "rtl",
+          "start": 1,
+          "type": null
+        },
+        "content": [
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "[ނަން] - [މަޤާމު]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false,
+          "level": 3
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "ޖަލްސާގެ އެޖެންޑާ"
+          }
+        ]
+      },
+      {
+        "type": "orderedList",
+        "attrs": {
+          "dir": "rtl",
+          "start": 1,
+          "type": null
+        },
+        "content": [
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "ކުރީ ޖަލްސާގެ ޔައުމިއްޔާ ފާސްކުރުން."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "[އެޖެންޑާ]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false,
+          "level": 3
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "މަޝްވަރާ އަދި ނިންމުން"
+          }
+        ]
+      },
+      {
+        "type": "orderedList",
+        "attrs": {
+          "dir": "rtl",
+          "start": 1,
+          "type": null
+        },
+        "content": [
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "text": "[އެޖެންޑާ]"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "[މަޝްވަރާ]"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "ހުށަހެޅީ: [ނަން]"
+                  },
+                  {
+                    "type": "hardBreak"
+                  },
+                  {
+                    "type": "text",
+                    "text": "ތާއީދުކުރީ: [ނަން]"
+                  },
+                  {
+                    "type": "hardBreak"
+                  },
+                  {
+                    "type": "text",
+                    "text": "ނިންމުން: [ނިންމުން]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "ޔައުމިއްޔާ ނިންމި ގަޑި: "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "[00:00]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "ޔައުމިއްޔާ ލިޔުނީ: [ނަން] ([މަޤާމު])"
+          }
+        ]
+      }
+    ]
+  }
+}

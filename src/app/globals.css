@@ -1,0 +1,198 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@source "../../packages/editor/src";
+
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: "AK Rasmee";
+  src: url("/fonts/ak-rasmee/ak-rasmee-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  size-adjust: 115%;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F;
+}
+
+:root {
+  color-scheme: light;
+  --canvas: #fdfcfc;
+  --canvas-soft: #fdfcfc;
+  --background: #fdfcfc;
+  --panel: #f5f3f1;
+  --panel-strong: #ebe8e4;
+  --foreground: #000000;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-active: #292524;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f3f1;
+  --secondary-foreground: #000000;
+  --muted: #f5f3f1;
+  --muted-foreground: #777169;
+  --body: #44403b;
+  --accent: #f5f3f1;
+  --accent-foreground: #000000;
+  --destructive: #dc2626;
+  --border: #e7e5e4;
+  --border-strong: #d6d3d1;
+  --input: #e7e5e4;
+  --ring: #000000;
+  --radius: 1rem;
+  --orb-mint: #a7e5d3;
+  --orb-peach: #f4c5a8;
+  --orb-lavender: #c8b8e0;
+  --orb-sky: #a8c8e8;
+  --orb-rose: #e8b8c4;
+  --elevation: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+@theme inline {
+  --font-sans:
+    var(--font-dm-sans), "AK Rasmee", ui-sans-serif, system-ui, sans-serif;
+  --font-thaana:
+    "AK Rasmee", var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-active: var(--primary-active);
+  --color-body: var(--body);
+  --color-border-strong: var(--border-strong);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-canvas: var(--canvas);
+  --color-canvas-soft: var(--canvas-soft);
+  --color-panel: var(--panel);
+  --color-panel-strong: var(--panel-strong);
+  --color-orb-mint: var(--orb-mint);
+  --color-orb-peach: var(--orb-peach);
+  --color-orb-lavender: var(--orb-lavender);
+  --color-orb-sky: var(--orb-sky);
+  --color-orb-rose: var(--orb-rose);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --shadow-soft: var(--elevation);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    font-size: 100%;
+    letter-spacing: 0.01em;
+  }
+
+  body {
+    @apply bg-canvas text-foreground antialiased;
+  }
+
+  [lang="dv"] {
+    font-family: var(--font-thaana);
+    font-synthesis: none;
+    letter-spacing: 0;
+  }
+
+  [lang="en"] {
+    font-family: var(--font-sans);
+    letter-spacing: 0.01em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 25%, transparent);
+  }
+}
+
+@layer components {
+  .docs h1 {
+    @apply text-[2.5rem] leading-[1.1] font-light tracking-[-0.02em];
+  }
+  .docs .lead {
+    @apply mt-4 text-[19px] leading-[1.55] text-body;
+  }
+  .docs h2 {
+    @apply mt-12 text-[1.5rem] leading-[1.3] font-light tracking-[-0.01em];
+  }
+  .docs p,
+  .docs li {
+    @apply text-[16.5px] leading-[1.7];
+  }
+  .docs h2 + p,
+  .docs p + p,
+  .docs p + ol,
+  .docs p + ul,
+  .docs h2 + ol,
+  .docs h2 + ul {
+    @apply mt-3;
+  }
+  .docs ol {
+    @apply list-decimal space-y-2 ps-5;
+  }
+  .docs ul {
+    @apply list-disc space-y-2 ps-5;
+  }
+  .docs a {
+    @apply underline decoration-border-strong underline-offset-4 hover:decoration-foreground;
+  }
+  .docs kbd {
+    @apply rounded-md border border-border bg-card px-1.5 py-0.5 font-sans text-[14px] shadow-soft;
+  }
+  .docs code {
+    @apply rounded-md bg-panel px-1.5 py-0.5 text-[14px];
+  }
+  .docs .example {
+    @apply mt-4 rounded-2xl bg-panel px-6 py-5 text-[20px] leading-[1.8];
+  }
+  .docs .example + p {
+    @apply mt-4;
+  }
+  .docs .keyboard {
+    @apply mt-5 space-y-1.5 rounded-[20px] bg-panel p-3 sm:p-5;
+  }
+  .docs .note {
+    @apply mt-10 text-[14px] text-muted-foreground;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 20mm;
+}
+
+@media print {
+  body {
+    background: white;
+  }
+}

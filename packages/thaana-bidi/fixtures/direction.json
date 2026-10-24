@@ -1,0 +1,108 @@
+[
+  {
+    "id": "brief-meeting",
+    "text": "ބައްދަލުވުން (Meeting 2026) ހުޅުވާލި",
+    "direction": "rtl",
+    "expected": ["ހުޅުވާލި", " ", "(", "Meeting", " ", "2026", ")", " ", "ބައްދަލުވުން"],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "The brief's example. Correct in an RTL paragraph; breaks only when the paragraph or page is LTR."
+  },
+  {
+    "id": "starts-with-latin-product",
+    "text": "iPhone 17 ވިއްކަން ފަށައިފި",
+    "direction": "rtl",
+    "expected": ["ފަށައިފި", " ", "ވިއްކަން", " ", "iPhone", " ", "17"],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": true,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "Dhivehi sentence starting with a Latin word. dir=\"auto\" (first strong letter) picks LTR and flips the whole sentence."
+  },
+  {
+    "id": "starts-with-latin-brackets",
+    "text": "Windows 11 (64-bit) ބޭނުންކުރެވޭނެ",
+    "direction": "rtl",
+    "expected": [
+      "ބޭނުންކުރެވޭނެ",
+      " ",
+      "Windows",
+      " ",
+      "11",
+      " ",
+      "(",
+      "64",
+      "-",
+      "bit",
+      ")"
+    ],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": true,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "Same as above, with brackets in the Latin run."
+  },
+  {
+    "id": "english-control",
+    "text": "The meeting opened (Meeting 2026).",
+    "direction": "ltr",
+    "expected": [
+      "The",
+      " ",
+      "meeting",
+      " ",
+      "opened",
+      " ",
+      "(",
+      "Meeting",
+      " ",
+      "2026",
+      ")",
+      "."
+    ],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "Control: plain English must stay LTR."
+  },
+  {
+    "id": "english-with-thaana-word",
+    "text": "The word ރާއްޖެ means Maldives.",
+    "direction": "ltr",
+    "expected": [
+      "The",
+      " ",
+      "word",
+      " ",
+      "ރާއްޖެ",
+      " ",
+      "means",
+      " ",
+      "Maldives",
+      "."
+    ],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "Control: English sentence with one Dhivehi word stays LTR."
+  }
+]

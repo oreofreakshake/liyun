@@ -1,0 +1,382 @@
+{
+  "version": 1,
+  "id": "invoice",
+  "title": {
+    "dv": "އިންވޮއިސް",
+    "en": "Invoice"
+  },
+  "license": "Apache-2.0",
+  "content": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "heading",
+        "attrs": {
+          "textAlign": "center",
+          "dir": "rtl",
+          "dirLocked": false,
+          "level": 2
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "ޓެކްސް އިންވޮއިސް"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": "center",
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ],
+            "text": "[ވިޔަފާރީގެ ނަން]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "ޓިން: "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "[TIN]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "[އެޑްރެސް]"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "އިންވޮއިސް ނަންބަރު: "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "[INV-2026-000]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "ތާރީޚް: [ތާރީޚް]"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ],
+            "text": "ބިލް ރައްދުވާ ފަރާތް:"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "[ނަން]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "ޓިން: "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "[TIN]"
+          }
+        ]
+      },
+      {
+        "type": "orderedList",
+        "attrs": {
+          "dir": "rtl",
+          "start": 1,
+          "type": null
+        },
+        "content": [
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "[ތަފްޞީލު] — އަދަދު: "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "ltrIsolate"
+                      }
+                    ],
+                    "text": "[1]"
+                  },
+                  {
+                    "type": "text",
+                    "text": " — އަގު: "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "ltrIsolate"
+                      }
+                    ],
+                    "text": "MVR [0.00]"
+                  },
+                  {
+                    "type": "text",
+                    "text": " — ޖުމްލަ: "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "ltrIsolate"
+                      }
+                    ],
+                    "text": "MVR [0.00]"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "textAlign": null,
+                  "dir": "rtl",
+                  "dirLocked": false
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "[ތަފްޞީލު] — އަދަދު: "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "ltrIsolate"
+                      }
+                    ],
+                    "text": "[1]"
+                  },
+                  {
+                    "type": "text",
+                    "text": " — އަގު: "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "ltrIsolate"
+                      }
+                    ],
+                    "text": "MVR [0.00]"
+                  },
+                  {
+                    "type": "text",
+                    "text": " — ޖުމްލަ: "
+                  },
+                  {
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "ltrIsolate"
+                      }
+                    ],
+                    "text": "MVR [0.00]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": "end",
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "ޖުމްލަ: "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "MVR [0.00]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "ޖީ.އެސް.ޓީ "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "([0]%): MVR [0.00]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ],
+            "text": "އަދާކުރަންޖެހޭ ޖުމްލަ: "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              },
+              {
+                "type": "bold"
+              }
+            ],
+            "text": "MVR [0.00]"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "textAlign": null,
+          "dir": "rtl",
+          "dirLocked": false
+        },
+        "content": [
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ],
+            "text": "ފައިސާ ޖަމާކުރަންވީ އެކައުންޓް:"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "[ބޭންކުގެ ނަން]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "އެކައުންޓް ނަންބަރު: "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "[0000 000000 000]"
+          },
+          {
+            "type": "hardBreak"
+          },
+          {
+            "type": "text",
+            "text": "އެކައުންޓް ނަން: "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "ltrIsolate"
+              }
+            ],
+            "text": "[Account name]"
+          }
+        ]
+      }
+    ]
+  }
+}

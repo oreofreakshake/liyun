@@ -1,0 +1,13 @@
+[
+  {
+    "id": "official-letter",
+    "title": { "dv": "ރަސްމީ ސިޓީ", "en": "Official letter" }
+  },
+  { "id": "memo", "title": { "dv": "މެމޯ", "en": "Memo" } },
+  {
+    "id": "meeting-minutes",
+    "title": { "dv": "ޔައުމިއްޔާ", "en": "Meeting minutes" }
+  },
+  { "id": "invoice", "title": { "dv": "އިންވޮއިސް", "en": "Invoice" } },
+  { "id": "news-article", "title": { "dv": "ޚަބަރު", "en": "News article" } }
+]

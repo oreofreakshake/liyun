@@ -1,0 +1,136 @@
+[
+  {
+    "id": "version-sentence-end",
+    "text": "ކޯޑު ލިޔުނީ Node.js 20 ގައި.",
+    "direction": "rtl",
+    "expected": [
+      ".",
+      "ގައި",
+      " ",
+      "Node",
+      ".",
+      "js",
+      " ",
+      "20",
+      " ",
+      "ލިޔުނީ",
+      " ",
+      "ކޯޑު"
+    ],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "Control: Latin + number mid-sentence, Dhivehi full stop."
+  },
+  {
+    "id": "email",
+    "text": "ފޮނުއްވާ info@example.mv އަށް",
+    "direction": "rtl",
+    "expected": ["އަށް", " ", "info", "@", "example", ".", "mv", " ", "ފޮނުއްވާ"],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "Control: email address stays intact."
+  },
+  {
+    "id": "honorific",
+    "text": "ބައްދަލުވުމުގައި Mr. Ahmed ވާހަކަ ދެއްކެވި",
+    "direction": "rtl",
+    "expected": [
+      "ދެއްކެވި",
+      " ",
+      "ވާހަކަ",
+      " ",
+      "Mr",
+      ".",
+      " ",
+      "Ahmed",
+      " ",
+      "ބައްދަލުވުމުގައި"
+    ],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "Control: abbreviation with a full stop inside a Latin run."
+  },
+  {
+    "id": "time-after-brackets",
+    "text": "ވެބިނާ (Zoom) އޮންނާނީ 10:30 ގައެވެ",
+    "direction": "rtl",
+    "expected": [
+      "ގައެވެ",
+      " ",
+      "10",
+      ":",
+      "30",
+      " ",
+      "އޮންނާނީ",
+      " ",
+      "(",
+      "Zoom",
+      ")",
+      " ",
+      "ވެބިނާ"
+    ],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "Control: bracketed Latin followed by a time."
+  },
+  {
+    "id": "latin-list",
+    "text": "ސޮފްޓްވެއާ: Microsoft Word, Google Docs",
+    "direction": "rtl",
+    "expected": [
+      "Microsoft",
+      " ",
+      "Word",
+      ",",
+      " ",
+      "Google",
+      " ",
+      "Docs",
+      " ",
+      ":",
+      "ސޮފްޓްވެއާ"
+    ],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "Control: comma-separated Latin list at paragraph end."
+  },
+  {
+    "id": "subject-line",
+    "text": "ދައުވަތު: Re: Invoice #42",
+    "direction": "rtl",
+    "expected": ["Re", ":", " ", "Invoice", " ", "#", "42", " ", ":", "ދައުވަތު"],
+    "reference": [],
+    "breaks": {
+      "inWrongDirection": true,
+      "withAutoDirection": false,
+      "withoutIsolation": false
+    },
+    "source": "synthetic",
+    "note": "Control: Latin with colons and # at paragraph end."
+  }
+]
