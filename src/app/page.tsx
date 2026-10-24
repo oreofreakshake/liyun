@@ -8,20 +8,9 @@ import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Comparison } from "@/components/comparison";
 import { SiteFooter } from "@/components/site-footer";
 import { pillDark, pillLight, SiteNav } from "@/components/site-nav";
-
-const examples: { before: string; run: string; after: string }[] = [
-  { before: "މި ޕްރޮގްރާމް ލިޔެފައިވަނީ ", run: "C++", after: " އިން" },
-  { before: "ތަރައްގީ ", run: "50%", after: " އަށް އިތުރުވި" },
-  { before: "ގުޅުއްވާނީ ", run: "+960 333 4444", after: " އަށް" },
-  { before: "ޓިކެޓުގެ އަގަކީ ", run: "$150", after: " އެވެ." },
-  {
-    before: "ރައީސް ވިދާޅުވީ ",
-    run: '"Welcome to Maldives!"',
-    after: " މިހެންނެވެ.",
-  },
-];
 
 const display = "font-light tracking-[-0.02em]";
 
@@ -176,40 +165,7 @@ export default function Home() {
             text="Most editors move brackets, numbers and symbols around English inside Dhivehi. Liyun protects them."
           />
           <div className="px-3 pb-20 md:px-8">
-            <div className="rounded-[20px] bg-panel p-1.5">
-              <div className="grid grid-cols-2 text-right text-[14px] text-muted-foreground">
-                <div className="px-5 py-3">In Liyun</div>
-                <div className="px-5 py-3">As typed elsewhere</div>
-              </div>
-              <div className="overflow-hidden rounded-2xl bg-card shadow-soft">
-                {examples.map((e, i) => (
-                  <div
-                    key={e.run}
-                    lang="dv"
-                    className={`grid grid-cols-2 text-[17px] leading-[1.8] md:text-[19px] ${i ? "border-t border-border" : ""}`}
-                  >
-                    <p dir="rtl" className="px-5 py-4 md:px-6">
-                      {e.before}
-                      <bdi
-                        dir="ltr"
-                        className="rounded-md bg-orb-sky/40 px-1 py-0.5 [box-decoration-break:clone]"
-                      >
-                        {e.run}
-                      </bdi>
-                      {e.after}
-                    </p>
-                    <p
-                      dir="rtl"
-                      className="border-s border-border px-5 py-4 text-muted-foreground md:px-6"
-                    >
-                      {e.before}
-                      {e.run}
-                      {e.after}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <Comparison />
           </div>
         </Band>
 
