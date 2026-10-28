@@ -1,5 +1,7 @@
 import {
+  applyPatch,
   type DocumentMeta,
+  type DocumentPatch,
   type DocumentStore,
   newId,
   type StoredDocument,
@@ -24,11 +26,18 @@ export class MemoryStore implements DocumentStore {
     const meta: DocumentMeta = {
       id: id ?? newId(),
       title,
+      name: existing?.name,
+      path: existing?.path,
       createdAt: existing?.createdAt ?? now,
       updatedAt: now,
     };
     this.docs.set(meta.id, { ...meta, file: structuredClone(file) });
     return meta;
+  }
+
+  async update(id: string, patch: DocumentPatch) {
+    const doc = this.docs.get(id);
+    if (doc) this.docs.set(id, { ...applyPatch(doc, patch), file: doc.file });
   }
 
   async remove(id: string) {

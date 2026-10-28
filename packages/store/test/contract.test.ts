@@ -1,7 +1,12 @@
 import "fake-indexeddb/auto";
 import { describe, expect, test } from "bun:test";
 import { DOCUMENT_VERSION, type DocumentFile } from "editor";
-import { type DocumentStore, IndexedDbStore, MemoryStore } from "../src";
+import {
+  type DocumentStore,
+  displayName,
+  IndexedDbStore,
+  MemoryStore,
+} from "../src";
 
 const file = (text: string): DocumentFile => ({
   version: DOCUMENT_VERSION,
@@ -65,6 +70,29 @@ describe.each(stores)("%s", (_, create) => {
     await store.remove(meta.id);
     expect(await store.open(meta.id)).toBeNull();
     expect(await store.list()).toEqual([]);
+  });
+
+  test("update sets a name and path that later saves keep", async () => {
+    const store = create();
+    const meta = await store.save({ title: "a", file: file("a") });
+    await store.update(meta.id, { name: "  Minutes  ", path: "/d/m.liyun" });
+    await store.save({ id: meta.id, title: "b", file: file("b") });
+    const doc = await store.open(meta.id);
+    expect(doc?.name).toBe("Minutes");
+    expect(doc?.path).toBe("/d/m.liyun");
+    expect(doc?.title).toBe("b");
+    expect((await store.list())[0].name).toBe("Minutes");
+  });
+
+  test("a blank name falls back to the title and leaves the path", async () => {
+    const store = create();
+    const meta = await store.save({ title: "a", file: file("a") });
+    await store.update(meta.id, { name: "Minutes", path: "/d/m.liyun" });
+    await store.update(meta.id, { name: " " });
+    const doc = await store.open(meta.id);
+    expect(doc?.name).toBeUndefined();
+    expect(doc?.path).toBe("/d/m.liyun");
+    expect(displayName(doc ?? { title: "" })).toBe("a");
   });
 
   test("open returns null for unknown ids", async () => {

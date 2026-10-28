@@ -1,0 +1,50 @@
+import type { JSONContent } from "@tiptap/core";
+import { parseDocumentFile } from "../export/file";
+
+export const DOCUMENT_EXTENSION = "liyun";
+
+// Older versions saved .json backups; they hold the same document format.
+export const openFilters = [
+  { name: "Documents", extensions: [DOCUMENT_EXTENSION, "docx", "json"] },
+];
+
+export const openAccept = `.${DOCUMENT_EXTENSION},.docx,.json,application/json`;
+
+export function splitFileName(fileName: string) {
+  const dot = fileName.lastIndexOf(".");
+  if (dot <= 0) return { stem: fileName, extension: "" };
+  return {
+    stem: fileName.slice(0, dot),
+    extension: fileName.slice(dot + 1).toLowerCase(),
+  };
+}
+
+/** Where an opened document came from, so it can be named and saved back. */
+export type OpenSource = { name: string; path?: string };
+
+export async function contentFromFile(
+  fileName: string,
+  data: ArrayBuffer,
+): Promise<JSONContent> {
+  if (splitFileName(fileName).extension === "docx") {
+    const { docxToContent } = await import("./docx");
+    try {
+      return await docxToContent(data);
+    } catch {
+      throw new Error("This Word file could not be read.");
+    }
+  }
+  return parseDocumentFile(new TextDecoder().decode(data)).content;
+}
+
+export async function readDocument(
+  fileName: string,
+  data: ArrayBuffer,
+  path?: string,
+): Promise<{ content: JSONContent; source: OpenSource }> {
+  const { stem, extension } = splitFileName(fileName);
+  const content = await contentFromFile(fileName, data);
+  // Only Liyun documents save back to where they came from.
+  const linked = extension === DOCUMENT_EXTENSION ? path : undefined;
+  return { content, source: { name: stem, path: linked } };
+}

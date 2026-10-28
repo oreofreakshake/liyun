@@ -3,9 +3,23 @@ import type { DocumentFile } from "editor";
 export type DocumentMeta = {
   id: string;
   title: string;
+  /** Set by the user; when empty the title from the text is shown. */
+  name?: string;
+  /** The file on disk this document saves to (desktop app only). */
+  path?: string;
   createdAt: number;
   updatedAt: number;
 };
+
+export type DocumentPatch = Partial<Pick<DocumentMeta, "name" | "path">>;
+
+export function applyPatch(meta: DocumentMeta, patch: DocumentPatch) {
+  const next = { ...meta };
+  for (const key of ["name", "path"] as const) {
+    if (key in patch) next[key] = patch[key]?.trim() || undefined;
+  }
+  return next;
+}
 
 export type StoredDocument = DocumentMeta & { file: DocumentFile };
 
@@ -17,8 +31,13 @@ export interface DocumentStore {
     title: string;
     file: DocumentFile;
   }): Promise<DocumentMeta>;
+  /** Blank values clear the field. */
+  update(id: string, patch: DocumentPatch): Promise<void>;
   remove(id: string): Promise<void>;
 }
+
+export const displayName = (doc: Pick<DocumentMeta, "name" | "title">) =>
+  doc.name || doc.title || "Untitled";
 
 export function newId(): string {
   if (typeof crypto.randomUUID === "function") return crypto.randomUUID();

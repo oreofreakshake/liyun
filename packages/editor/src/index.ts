@@ -12,7 +12,13 @@ export {
   editorExtensions,
   htmlToContent,
 } from "./extensions";
+export {
+  DOCUMENT_EXTENSION,
+  type OpenSource,
+  readDocument,
+} from "./import/file";
 export { type LayoutId, layouts } from "./layouts";
+export { onOpenedFiles, setDocumentTitle } from "./native";
 export {
   ThaanaKeyboard,
   type ThaanaKeyboardStorage,

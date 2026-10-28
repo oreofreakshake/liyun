@@ -12,6 +12,10 @@ import {
   Editor,
   htmlToContent,
   type JSONContent,
+  type OpenSource,
+  onOpenedFiles,
+  readDocument,
+  setDocumentTitle,
   titleOf,
 } from "editor";
 import {
@@ -24,7 +28,12 @@ import {
 } from "editor/ui/dropdown-menu";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { DocumentMeta, StoredDocument } from "store";
+import {
+  type DocumentMeta,
+  type DocumentPatch,
+  displayName,
+  type StoredDocument,
+} from "store";
 import { LogoMark } from "@/components/logo";
 import { documentStore, fallBackToMemory, isPersistent } from "@/store";
 import { templates } from "@/templates";
@@ -32,6 +41,43 @@ import { templates } from "@/templates";
 type SaveState = "saved" | "saving" | "error";
 
 const AUTOSAVE_MS = 600;
+
+function NameField({
+  name,
+  placeholder,
+  onRename,
+}: {
+  name: string;
+  placeholder: string;
+  onRename: (name: string) => void;
+}) {
+  const [draft, setDraft] = useState(name);
+  const commit = () => {
+    const next = draft.trim();
+    setDraft(next);
+    if (next !== name) onRename(next);
+  };
+  return (
+    <input
+      aria-label="Document name"
+      dir="auto"
+      value={draft}
+      placeholder={placeholder}
+      size={Math.max(1, (draft || placeholder).length)}
+      spellCheck={false}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={commit}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") e.currentTarget.blur();
+        if (e.key === "Escape") {
+          setDraft(name);
+          requestAnimationFrame(() => e.currentTarget?.blur());
+        }
+      }}
+      className="h-9 min-w-0 max-w-[min(28rem,100%)] truncate rounded-full bg-transparent px-3 text-[15px] outline-none field-sizing-content placeholder:text-foreground transition-colors hover:bg-panel focus:bg-panel focus-visible:ring-2 focus-visible:ring-ring"
+    />
+  );
+}
 
 export function Workspace({ demoHtml }: { demoHtml: string }) {
   const [docs, setDocs] = useState<DocumentMeta[]>([]);
@@ -67,13 +113,23 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
   }, [refreshList]);
 
   const create = useCallback(
-    async (content: JSONContent) => {
+    async (content: JSONContent, source?: OpenSource) => {
       await flush();
+      const store = documentStore();
+      // A file that is already a document here opens that document instead.
+      const linked = source?.path
+        ? (await store.list()).find((d) => d.path === source.path)
+        : undefined;
+      if (linked) {
+        setCurrent(await store.open(linked.id));
+        return;
+      }
       const file = { version: DOCUMENT_VERSION, content } as const;
-      const meta = await documentStore().save({
-        title: titleOf(content),
-        file,
-      });
+      let meta = await store.save({ title: titleOf(content), file });
+      if (source) {
+        await store.update(meta.id, source);
+        meta = { ...meta, name: source.name, path: source.path };
+      }
       await refreshList();
       setCurrent({ ...meta, file });
     },
@@ -124,6 +180,46 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
     timer.current = setTimeout(flush, AUTOSAVE_MS);
   };
 
+  useEffect(
+    () =>
+      onOpenedFiles(async ({ fileName, data, path }) => {
+        try {
+          const { content, source } = await readDocument(fileName, data, path);
+          await create(content, source);
+        } catch (error) {
+          window.alert((error as Error).message);
+        }
+      }),
+    [create],
+  );
+
+  const update = async (patch: DocumentPatch) => {
+    if (!current) return;
+    const id = current.id;
+    try {
+      await documentStore().update(id, patch);
+    } catch {
+      setSaveState("error");
+      return;
+    }
+    setCurrent((doc) =>
+      doc?.id === id
+        ? {
+            ...doc,
+            ...Object.fromEntries(
+              Object.entries(patch).map(([k, v]) => [k, v || undefined]),
+            ),
+          }
+        : doc,
+    );
+    await refreshList();
+  };
+
+  const name = current ? displayName(current) : "";
+  useEffect(() => {
+    if (name) setDocumentTitle(name).catch(() => {});
+  }, [name]);
+
   const remove = async () => {
     if (!current) return;
     if (!window.confirm("Delete this document? This cannot be undone.")) return;
@@ -141,7 +237,7 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
   const statusText = !isPersistent()
     ? "Not saved: this browser blocks storage"
     : saveState === "error"
-      ? "Not saved. Use File, Save backup"
+      ? "Not saved here. Save a copy from the File menu"
       : saveState === "saving"
         ? "Saving"
         : "Saved";
@@ -155,14 +251,17 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
         aria-hidden
         className="hidden h-5 w-px shrink-0 bg-border sm:block"
       />
+      <NameField
+        key={`${current.id}:${current.name}`}
+        name={current.name ?? ""}
+        placeholder={current.title || "Untitled"}
+        onRename={(name) => update({ name })}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger
-          aria-label="Open document"
-          className="inline-flex h-9 min-w-0 items-center gap-1.5 rounded-full px-3 text-[15px] outline-none transition-colors hover:bg-panel focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-panel"
+          aria-label="Your documents"
+          className="-ms-1 inline-flex size-8 shrink-0 items-center justify-center rounded-full outline-none transition-colors hover:bg-panel focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-panel"
         >
-          <span dir="auto" className="truncate">
-            {current.title || "Untitled"}
-          </span>
           <HugeiconsIcon
             icon={ArrowDown01Icon}
             strokeWidth={1.6}
@@ -175,7 +274,7 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
             {docs.map((d) => (
               <DropdownMenuRadioItem key={d.id} value={d.id}>
                 <span dir="auto" className="truncate">
-                  {d.title || "Untitled"}
+                  {displayName(d)}
                 </span>
               </DropdownMenuRadioItem>
             ))}
@@ -224,6 +323,9 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
       onDelete={remove}
       documentControls={documentControls}
       status={status}
+      fileName={name}
+      filePath={current.path}
+      onSaved={update}
     />
   );
 }

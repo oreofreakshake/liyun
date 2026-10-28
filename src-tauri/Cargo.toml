@@ -1,0 +1,23 @@
+[package]
+name = "liyun"
+version = "0.1.0"
+description = "An intuitive Dhivehi text editor"
+license = "Apache-2.0"
+edition = "2024"
+rust-version = "1.90"
+
+[lib]
+name = "liyun_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.7.4", features = [] }
+
+[dependencies]
+tauri = { version = "2.12.5", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-persisted-scope = "2"
+
+[target.'cfg(any(target_os = "macos", windows, target_os = "linux"))'.dependencies]
+tauri-plugin-single-instance = "2"

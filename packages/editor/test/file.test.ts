@@ -1,5 +1,9 @@
 import { expect, test } from "bun:test";
-import { parseDocumentFile, toDocumentFile } from "../src/export/file";
+import {
+  parseDocumentFile,
+  safeFileName,
+  toDocumentFile,
+} from "../src/export/file";
 
 const content = { type: "doc", content: [{ type: "paragraph" }] };
 
@@ -16,7 +20,7 @@ test("version 1 backups open as the current version", () => {
 test("rejects files that are not backups", () => {
   expect(() => parseDocumentFile("not json")).toThrow("not valid JSON");
   expect(() => parseDocumentFile('{"hello":1}')).toThrow(
-    "not a document backup",
+    "not a Liyun document",
   );
 });
 
@@ -46,4 +50,12 @@ test("titleOf takes the first non-empty line and shortens it", async () => {
   );
   expect(titleOf(doc([]))).toBe("");
   expect(titleOf(doc(["a".repeat(80)]))).toHaveLength(60);
+});
+
+test("file names drop characters the OS refuses", () => {
+  expect(safeFileName('  Q3: "plan" / draft?  ')).toBe("Q3 plan draft");
+  expect(safeFileName("ބައްދަލުވުން 2026")).toBe("ބައްދަލުވުން 2026");
+  expect(safeFileName("..hidden")).toBe("hidden");
+  expect(safeFileName("a\tb\nc")).toBe("a b c");
+  expect(safeFileName(" <> ")).toBe("");
 });

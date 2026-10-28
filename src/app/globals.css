@@ -323,7 +323,7 @@
   border-top-width: 1px;
 }
 
-.ProseMirror > :has(+ [data-page-footer]) {
+.ProseMirror > :has(+ [data-page-footer]):not([data-page-gap]) {
   margin-bottom: 2rem;
 }
 
@@ -373,5 +373,46 @@
 @media print {
   [data-page-break] {
     break-after: page;
+  }
+}
+
+/* Spacers between A4 sheets (see pagination.ts). They hold the empty end of a
+   page, the gap, and copies of the header and footer. */
+.ProseMirror [data-page-gap] {
+  user-select: none;
+}
+
+.ProseMirror [data-page-gap] > [data-align="end"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.ProseMirror [data-page-repeat] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.ProseMirror [data-page-repeat]::before,
+.ProseMirror [data-page-repeat]::after {
+  content: none;
+}
+
+@media screen and (min-width: 768px) {
+  .ProseMirror [data-page-break] {
+    height: 1px;
+    margin: 0;
+    background: none;
+    border: 0;
+  }
+
+  .ProseMirror [data-page-gap] + * {
+    margin-top: 0;
+  }
+}
+
+@media print {
+  [data-page-gap] {
+    display: none;
   }
 }

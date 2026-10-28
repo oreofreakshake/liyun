@@ -27,7 +27,7 @@ editor, typed and pasted, and after export to Word.
 - Per-paragraph direction and automatic LTR isolation
 - Phonetic Thaana keyboard; switch to English from the keyboard menu or with Alt + Shift
 - Templates: official letter, memo, meeting minutes, invoice, news article
-- Export to Word (.docx) and PDF (browser print); JSON backup and restore
+- Liyun files (.liyun), opening Word files, export to Word (.docx) and PDF
 - No account and no server: documents are saved in the browser (for now)
 
 ## Getting started

@@ -1,4 +1,4 @@
-import { Kbd, KbdGroup } from "editor/ui/kbd";
+import { Shortcut } from "editor/ui/shortcut";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -17,18 +17,13 @@ export default function GettingStarted() {
       <p>
         Documents are saved in this browser as you type. There is no account and
         nothing is sent to a server. Clearing your browser data deletes them, so
-        save a backup now and then: <strong>File, Save backup</strong>.
+        keep a copy of anything important: <strong>File, Download</strong>.
       </p>
 
       <h2>Thaana and English</h2>
       <p>
         The keyboard starts in Thaana. Switch with the keyboard menu in the
-        toolbar or press{" "}
-        <KbdGroup>
-          <Kbd>Alt</Kbd>
-          <span>+</span>
-          <Kbd>Shift</Kbd>
-        </KbdGroup>
+        toolbar or press <Shortcut keys={["alt", "shift"]} />
       </p>
 
       <h2>Next</h2>

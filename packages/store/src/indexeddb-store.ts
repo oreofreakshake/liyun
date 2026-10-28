@@ -1,5 +1,7 @@
 import {
+  applyPatch,
   type DocumentMeta,
+  type DocumentPatch,
   type DocumentStore,
   newId,
   type StoredDocument,
@@ -68,6 +70,8 @@ export class IndexedDbStore implements DocumentStore {
     const meta: DocumentMeta = {
       id: id ?? newId(),
       title,
+      name: existing?.name,
+      path: existing?.path,
       createdAt: existing?.createdAt ?? now,
       updatedAt: now,
     };
@@ -75,6 +79,15 @@ export class IndexedDbStore implements DocumentStore {
     tx.objectStore(CONTENT).put(file, meta.id);
     await done(tx);
     return meta;
+  }
+
+  async update(id: string, patch: DocumentPatch) {
+    const db = await this.db;
+    const tx = db.transaction(META, "readwrite");
+    const store = tx.objectStore(META);
+    const meta = await request<DocumentMeta | undefined>(store.get(id));
+    if (meta) store.put(applyPatch(meta, patch));
+    await done(tx);
   }
 
   async remove(id: string) {

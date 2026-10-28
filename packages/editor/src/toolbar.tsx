@@ -41,7 +41,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Kbd, KbdGroup } from "./ui/kbd";
+import { Shortcut, useShortcutText } from "./ui/shortcut";
 
 type DirectionMode = "auto" | "rtl" | "ltr";
 type Alignment = "start" | "center" | "end" | "justify";
@@ -66,11 +66,6 @@ const directions: { value: DirectionMode; label: string; hint: string }[] = [
   { value: "ltr", label: "LTR", hint: "Left to right" },
 ];
 
-const modKey =
-  typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform)
-    ? "⌘"
-    : "Ctrl";
-
 export function Toolbar({
   editor,
   showIsolation,
@@ -81,6 +76,7 @@ export function Toolbar({
   onShowIsolation: (on: boolean) => void;
 }) {
   const chain = () => editor.chain().focus();
+  const shortcut = useShortcutText();
   const block = editor.state.selection.$from.parent;
   const rtl = block.attrs.dir !== "ltr";
   const mode = (
@@ -367,7 +363,9 @@ export function Toolbar({
         <DropdownMenuItem onSelect={() => chain().setPageBreak().run()}>
           <Icon icon={SeparatorHorizontalIcon} />
           Page break
-          <DropdownMenuShortcut>{modKey} Enter</DropdownMenuShortcut>
+          <DropdownMenuShortcut>
+            {shortcut(["mod", "enter"])}
+          </DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuLabel>On every page</DropdownMenuLabel>
@@ -438,11 +436,7 @@ export function Toolbar({
         </DropdownMenuRadioGroup>
         <DropdownMenuSeparator />
         <p className="flex items-center gap-1.5 px-2.5 py-1.5 text-[12px] text-muted-foreground">
-          <KbdGroup>
-            <Kbd>Alt</Kbd>
-            <span>+</span>
-            <Kbd>Shift</Kbd>
-          </KbdGroup>
+          <Shortcut keys={["alt", "shift"]} />
           to switch
         </p>
       </Menu>

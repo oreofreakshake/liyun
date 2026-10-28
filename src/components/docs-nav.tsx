@@ -16,7 +16,7 @@ export const docsPages: [string, string][] = [
   ["/docs/writing", "Writing mixed text"],
   ["/docs/keyboard", "Thaana keyboard"],
   ["/docs/templates", "Templates"],
-  ["/docs/export", "Export and backup"],
+  ["/docs/export", "Files and export"],
 ];
 
 export function useDocsPath() {

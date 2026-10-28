@@ -5,7 +5,7 @@ import {
   ArrowDown01Icon,
   Delete02Icon,
   Doc01Icon,
-  Download01Icon,
+  FloppyDiskIcon,
   FolderOpenIcon,
   LicenseDraftIcon,
   PrinterIcon,
@@ -14,9 +14,26 @@ import type { Content, JSONContent } from "@tiptap/core";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { type ReactNode, useEffect, useReducer, useRef, useState } from "react";
 import type { Template } from "./document";
-import { download, parseDocumentFile, toDocumentFile } from "./export/file";
+import { download, safeFileName, toDocumentFile } from "./export/file";
 import { coreExtensionOptions, editorExtensions } from "./extensions";
-import { PageMarks } from "./page-marks";
+import {
+  DOCUMENT_EXTENSION,
+  type OpenSource,
+  openAccept,
+  openFilters,
+  readDocument,
+  splitFileName,
+} from "./import/file";
+import {
+  baseName,
+  isTauri,
+  openNative,
+  print,
+  saveNative,
+  writePath,
+} from "./native";
+import { PageSheets } from "./page-sheets";
+import { PAGE_GAP, PAGE_HEIGHT, Pagination, paginationKey } from "./pagination";
 import { Icon, Toolbar } from "./toolbar";
 import {
   DropdownMenu,
@@ -27,6 +44,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { isMacPlatform, useShortcutText } from "./ui/shortcut";
 
 const pageClass = [
   "min-h-[calc(1123px-12rem)] text-[17px] leading-[1.85] tracking-normal outline-none",
@@ -50,24 +68,52 @@ export function Editor({
   onDelete,
   documentControls,
   status,
+  fileName,
+  filePath,
+  onSaved,
 }: {
   content?: Content;
   templates?: Template[];
   onChange?: (content: JSONContent) => void;
-  onOpenContent?: (content: JSONContent) => void;
+  onOpenContent?: (content: JSONContent, source?: OpenSource) => void;
   onNew?: () => void;
   onDelete?: () => void;
   documentControls?: ReactNode;
   status?: ReactNode;
+  /** Suggested name for exported files, without an extension. */
+  fileName?: string;
+  /** The file Save writes to in the desktop app. */
+  filePath?: string;
+  /** Called after Save As in the desktop app, with the chosen file. */
+  onSaved?: (source: OpenSource) => void;
 }) {
   const [showIsolation, setShowIsolation] = useState(false);
+  const shortcut = useShortcutText();
+  const runRef = useRef<(action: string) => void>(() => {});
+  useEffect(() => {
+    // By physical key, so the shortcuts work under any keyboard layout.
+    const actions: Record<string, string> = {
+      KeyO: "open",
+      KeyS: "save",
+      KeyP: "print",
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      const mod = isMacPlatform() ? e.metaKey : e.ctrlKey;
+      const action = actions[e.code];
+      if (!mod || e.altKey || !action) return;
+      e.preventDefault();
+      runRef.current(action === "save" && e.shiftKey ? "save-as" : action);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
   const importInput = useRef<HTMLInputElement>(null);
   const onChangeRef = useRef(onChange);
   useEffect(() => {
     onChangeRef.current = onChange;
   });
   const editor = useEditor({
-    extensions: editorExtensions(),
+    extensions: [...editorExtensions(), Pagination],
     enableCoreExtensions: coreExtensionOptions,
     content,
     immediatelyRender: false,
@@ -84,7 +130,6 @@ export function Editor({
     };
   }, [editor]);
 
-  const pageRef = useRef<HTMLElement>(null);
   const printHeader = useRef<HTMLTableCellElement>(null);
   const printBody = useRef<HTMLTableCellElement>(null);
   const printFooter = useRef<HTMLTableCellElement>(null);
@@ -93,7 +138,9 @@ export function Editor({
     const fill = () => {
       const fill = (cell: HTMLElement | null, nodes: Element[]) =>
         cell?.replaceChildren(...nodes.map((n) => n.cloneNode(true)));
-      const parts = [...editor.view.dom.children];
+      const parts = [...editor.view.dom.children].filter(
+        (n) => !n.hasAttribute("data-page-gap"),
+      );
       const frame = (attr: string) => [
         ...(parts.find((n) => n.hasAttribute(attr))?.children ?? []),
       ];
@@ -114,9 +161,13 @@ export function Editor({
 
   if (!editor) return null;
 
-  const openContent = (next: JSONContent) => {
+  const pagination = paginationKey.getState(editor.state);
+  const paged = pagination?.active ?? false;
+  const pages = pagination?.pages ?? 1;
+
+  const openContent = (next: JSONContent, source?: OpenSource) => {
     if (onOpenContent) {
-      onOpenContent(next);
+      onOpenContent(next, source);
       return;
     }
     if (
@@ -128,35 +179,57 @@ export function Editor({
     editor.chain().focus().setContent(next).run();
   };
 
+  const openFile = async (
+    fileName: string,
+    data: ArrayBuffer,
+    path?: string,
+  ) => {
+    try {
+      const { content, source } = await readDocument(fileName, data, path);
+      openContent(content, source);
+    } catch (error) {
+      window.alert((error as Error).message);
+    }
+  };
+
   const fileAction = async (action: string) => {
     const stamp = new Date().toISOString().slice(0, 10);
+    const base = safeFileName(fileName ?? "") || `document-${stamp}`;
     const json = editor.getJSON();
-    if (action === "export-json") {
-      const file = JSON.stringify(toDocumentFile(json), null, 2);
-      download(
-        new Blob([file], { type: "application/json" }),
-        `document-${stamp}.json`,
-      );
+    const liyunFile = () =>
+      new Blob([JSON.stringify(toDocumentFile(json), null, 2)], {
+        type: "application/json",
+      });
+    if (action === "open") {
+      if (!isTauri()) return importInput.current?.click();
+      const file = await openNative(openFilters);
+      if (file) await openFile(file.fileName, file.data, file.path);
+    } else if (action === "save" && isTauri() && filePath) {
+      await writePath(filePath, liyunFile());
+    } else if (action === "save" || action === "save-as") {
+      const name = `${base}.${DOCUMENT_EXTENSION}`;
+      if (!isTauri()) return download(liyunFile(), name);
+      const path = await saveNative(liyunFile(), name);
+      if (path) {
+        onSaved?.({ name: splitFileName(baseName(path)).stem, path });
+      }
     } else if (action === "export-docx") {
       const { toDocxBlob } = await import("./export/docx");
-      download(await toDocxBlob(json), `document-${stamp}.docx`);
+      await download(await toDocxBlob(json), `${base}.docx`);
     } else if (action === "print") {
-      window.print();
-    } else if (action === "import-json") {
-      importInput.current?.click();
+      await print();
     } else if (action === "delete") {
       onDelete?.();
     }
   };
 
-  const importFile = async (file: File | undefined) => {
-    if (!file) return;
-    try {
-      openContent(parseDocumentFile(await file.text()).content);
-    } catch (error) {
-      window.alert((error as Error).message);
-    }
-  };
+  const run = (action: string) =>
+    fileAction(action).catch((error) =>
+      window.alert(
+        `Something went wrong: ${(error as Error).message ?? error}`,
+      ),
+    );
+  runRef.current = run;
 
   return (
     <div className="min-h-screen bg-canvas print:bg-white">
@@ -176,32 +249,48 @@ export function Editor({
                 />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-60">
-                <DropdownMenuItem onSelect={() => fileAction("import-json")}>
+                <DropdownMenuItem onSelect={() => run("open")}>
                   <Icon icon={FolderOpenIcon} />
-                  Open backup
-                  <DropdownMenuShortcut>.json</DropdownMenuShortcut>
+                  Open…
+                  <DropdownMenuShortcut>
+                    {shortcut(["mod", "O"])}
+                  </DropdownMenuShortcut>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => fileAction("export-json")}>
-                  <Icon icon={Download01Icon} />
-                  Save backup
-                  <DropdownMenuShortcut>.json</DropdownMenuShortcut>
+                <DropdownMenuItem onSelect={() => run("save")}>
+                  <Icon icon={FloppyDiskIcon} />
+                  {isTauri() ? "Save" : "Download"}
+                  <DropdownMenuShortcut>
+                    {shortcut(["mod", "S"])}
+                  </DropdownMenuShortcut>
                 </DropdownMenuItem>
+                {isTauri() && (
+                  <DropdownMenuItem onSelect={() => run("save-as")}>
+                    <Icon icon={FloppyDiskIcon} />
+                    Save As…
+                    <DropdownMenuShortcut>
+                      {shortcut(["mod", "shift", "S"])}
+                    </DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onSelect={() => fileAction("export-docx")}>
+                <DropdownMenuItem onSelect={() => run("export-docx")}>
                   <Icon icon={Doc01Icon} />
                   Export to Word
                   <DropdownMenuShortcut>.docx</DropdownMenuShortcut>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => fileAction("print")}>
+                <DropdownMenuItem onSelect={() => run("print")}>
                   <Icon icon={PrinterIcon} />
                   Save as PDF
+                  <DropdownMenuShortcut>
+                    {shortcut(["mod", "P"])}
+                  </DropdownMenuShortcut>
                 </DropdownMenuItem>
                 {onDelete && (
                   <>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       variant="destructive"
-                      onSelect={() => fileAction("delete")}
+                      onSelect={() => run("delete")}
                     >
                       <Icon icon={Delete02Icon} />
                       Delete document
@@ -250,11 +339,12 @@ export function Editor({
             <input
               ref={importInput}
               type="file"
-              accept=".json,application/json"
+              accept={openAccept}
               hidden
-              onChange={(e) => {
-                importFile(e.target.files?.[0]);
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
                 e.target.value = "";
+                if (file) await openFile(file.name, await file.arrayBuffer());
               }}
             />
           </div>
@@ -271,13 +361,17 @@ export function Editor({
 
       <main className="px-4 pt-6 pb-24 print:p-0">
         <article
-          ref={pageRef}
-          className={`relative mx-auto w-full max-w-[794px] rounded-xl border border-border bg-card px-(--page-x) py-(--page-y) shadow-soft [--page-x:1.5rem] [--page-y:2.5rem] sm:[--page-x:4rem] sm:[--page-y:4rem] md:[--page-x:76px] md:[--page-y:76px] print:max-w-none print:rounded-none print:border-0 print:p-0 print:shadow-none ${
-            showIsolation ? "show-runs" : ""
-          }`}
+          style={
+            paged
+              ? { minHeight: pages * (PAGE_HEIGHT + PAGE_GAP) - PAGE_GAP }
+              : undefined
+          }
+          className={`relative isolate mx-auto w-full max-w-[794px] rounded-xl px-(--page-x) py-(--page-y) [--page-x:1.5rem] [--page-y:2.5rem] sm:[--page-x:4rem] sm:[--page-y:4rem] md:[--page-x:76px] md:[--page-y:76px] print:max-w-none print:rounded-none print:border-0 print:p-0 print:shadow-none ${
+            paged ? "" : "border border-border bg-card shadow-soft"
+          } ${showIsolation ? "show-runs" : ""}`}
         >
           <EditorContent editor={editor} className="print:hidden" />
-          <PageMarks editor={editor} page={pageRef} />
+          {paged && <PageSheets pages={pages} />}
           <table className="hidden w-full border-collapse print:table">
             <thead>
               <tr>

@@ -5,8 +5,27 @@ export const metadata: Metadata = { title: "Documentation | Liyun" };
 export default function ExportDocs() {
   return (
     <>
-      <h1>Export and backup</h1>
+      <h1>Files and export</h1>
       <p className="lead">Everything is in the editor&apos;s File menu.</p>
+
+      <h2>Liyun files</h2>
+      <p>
+        A <code>.liyun</code> file keeps everything exactly as you wrote it.{" "}
+        <strong>Download</strong> saves one. In the desktop app,{" "}
+        <strong>Save</strong> writes back to the file you opened and{" "}
+        <strong>Save As</strong> picks a new one.
+      </p>
+      <p>
+        <strong>Open</strong> opens a <code>.liyun</code> file, a Word file, or
+        a <code>.json</code> backup from an older version as a new document. The
+        desktop app also opens them with a double-click.
+      </p>
+
+      <h2>Opening Word files</h2>
+      <p>
+        Text, headings, bold, italics, lists and tables come across. Fonts,
+        alignment, the header and the footer do not.
+      </p>
 
       <h2>Word</h2>
       <p>
@@ -31,16 +50,11 @@ export default function ExportDocs() {
         </li>
       </ol>
 
-      <h2>Backup</h2>
+      <h2>Keep copies</h2>
       <p>
-        <strong>Save backup</strong> downloads a <code>.json</code> copy.{" "}
-        <strong>Open backup</strong> opens it as a new document, on any
-        computer.
-      </p>
-
-      <h2>Keep backups</h2>
-      <p>
-        Documents live only in this browser. Clearing browser data deletes them.
+        Documents live only in this browser or app. Clearing browser data
+        deletes them, so download a <code>.liyun</code> copy of anything you
+        want to keep.
       </p>
     </>
   );

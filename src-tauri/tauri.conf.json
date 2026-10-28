@@ -1,0 +1,70 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Liyun",
+  "version": "0.1.0",
+  "identifier": "com.oreofreakshake.liyun",
+  "build": {
+    "frontendDist": "../out",
+    "devUrl": "http://localhost:3000",
+    "beforeDevCommand": "bun run dev",
+    "beforeBuildCommand": "bun run build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Liyun",
+        "url": "write",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 480,
+        "minHeight": 400,
+        "resizable": true,
+        "dragDropEnabled": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "Productivity",
+    "shortDescription": "An intuitive Dhivehi text editor",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "files": {
+        "Resources/Assets.car": "icons/Assets.car"
+      },
+      "minimumSystemVersion": "11.0"
+    },
+    "fileAssociations": [
+      {
+        "ext": ["liyun"],
+        "name": "Liyun Document",
+        "description": "Liyun Document",
+        "role": "Editor",
+        "rank": "Owner",
+        "mimeType": "application/vnd.liyun+json",
+        "exportedType": {
+          "identifier": "com.oreofreakshake.liyun.document",
+          "conformsTo": ["public.json"]
+        }
+      },
+      {
+        "ext": ["docx"],
+        "name": "Word Document",
+        "description": "Word Document",
+        "role": "Editor",
+        "rank": "Alternate",
+        "contentTypes": ["org.openxmlformats.wordprocessingml.document"]
+      }
+    ]
+  }
+}
