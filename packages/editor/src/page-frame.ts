@@ -98,6 +98,32 @@ export const PageBreak = Node.create({
   },
 
   addKeyboardShortcuts() {
-    return { "Mod-Enter": () => this.editor.commands.setPageBreak() };
+    // Backspace at the start of a page, or Delete at the end of the one
+    // before, removes the break in one key press, as in a word processor.
+    const removeBreak = (backward: boolean) => () => {
+      const { state, view } = this.editor;
+      const { selection } = state;
+      const { $from } = selection;
+      if (!selection.empty || $from.depth !== 1) return false;
+      const atEdge = backward
+        ? $from.parentOffset === 0
+        : $from.parentOffset === $from.parent.content.size;
+      if (!atEdge) return false;
+      const pos = backward ? $from.before() : $from.after();
+      const node = backward
+        ? state.doc.resolve(pos).nodeBefore
+        : state.doc.resolve(pos).nodeAfter;
+      if (node?.type !== this.type) return false;
+      const from = backward ? pos - node.nodeSize : pos;
+      view.dispatch(
+        state.tr.delete(from, from + node.nodeSize).scrollIntoView(),
+      );
+      return true;
+    };
+    return {
+      "Mod-Enter": () => this.editor.commands.setPageBreak(),
+      Backspace: removeBreak(true),
+      Delete: removeBreak(false),
+    };
   },
 });

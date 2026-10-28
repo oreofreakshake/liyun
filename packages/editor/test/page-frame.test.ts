@@ -104,3 +104,41 @@ test("page breaks reach Word", async () => {
   const body = await zip.file("word/document.xml")?.async("string");
   expect(body).toContain('<w:br w:type="page"/>');
 });
+
+const press = (key: string) => {
+  const { view } = editor;
+  const event = new KeyboardEvent("keydown", { key });
+  return view.someProp("handleKeyDown", (f) => f(view, event)) ?? false;
+};
+
+test("Backspace on an empty new page removes it in one press", () => {
+  editor = createEditor("<p>one</p>");
+  editor.commands.setTextSelection(4);
+  editor.commands.setPageBreak();
+  expect(types()).toEqual(["paragraph", "pageBreak", "paragraph"]);
+  expect(press("Backspace")).toBe(true);
+  expect(types()).toEqual(["paragraph", "paragraph"]);
+  expect(editor.state.selection.$from.parent.textContent).toBe("");
+});
+
+test("Backspace at the start of a page pulls its text back", () => {
+  editor = createEditor("<p>one</p><div data-page-break></div><p>two</p>");
+  editor.commands.setTextSelection(7);
+  expect(editor.state.selection.$from.parent.textContent).toBe("two");
+  expect(press("Backspace")).toBe(true);
+  expect(types()).toEqual(["paragraph", "paragraph"]);
+});
+
+test("Delete at the end of the page before removes the break", () => {
+  editor = createEditor("<p>one</p><div data-page-break></div><p>two</p>");
+  editor.commands.setTextSelection(4);
+  expect(press("Delete")).toBe(true);
+  expect(types()).toEqual(["paragraph", "paragraph"]);
+});
+
+test("Backspace inside text is left alone", () => {
+  editor = createEditor("<p>one</p><div data-page-break></div><p>two</p>");
+  editor.commands.setTextSelection(8);
+  expect(press("Backspace")).toBe(false);
+  expect(types()).toEqual(["paragraph", "pageBreak", "paragraph"]);
+});

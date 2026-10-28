@@ -11,6 +11,7 @@ import {
   DOCUMENT_VERSION,
   Editor,
   htmlToContent,
+  isTauri,
   type JSONContent,
   type OpenSource,
   onOpenedFiles,
@@ -244,9 +245,16 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
 
   const documentControls = (
     <>
-      <Link href="/" aria-label="Liyun home" className="shrink-0 px-1">
-        <LogoMark className="h-7 w-auto" />
-      </Link>
+      {/* The desktop app has no website to go back to. */}
+      {isTauri() ? (
+        <span className="shrink-0 px-1">
+          <LogoMark className="h-7 w-auto" />
+        </span>
+      ) : (
+        <Link href="/" aria-label="Liyun home" className="shrink-0 px-1">
+          <LogoMark className="h-7 w-auto" />
+        </Link>
+      )}
       <span
         aria-hidden
         className="hidden h-5 w-px shrink-0 bg-border sm:block"

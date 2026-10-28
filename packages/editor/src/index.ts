@@ -18,7 +18,7 @@ export {
   readDocument,
 } from "./import/file";
 export { type LayoutId, layouts } from "./layouts";
-export { onOpenedFiles, setDocumentTitle } from "./native";
+export { isTauri, onOpenedFiles, setDocumentTitle } from "./native";
 export {
   ThaanaKeyboard,
   type ThaanaKeyboardStorage,
