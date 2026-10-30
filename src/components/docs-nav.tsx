@@ -15,6 +15,7 @@ export const docsPages: [string, string][] = [
   ["/docs", "Getting started"],
   ["/docs/writing", "Writing mixed text"],
   ["/docs/keyboard", "Thaana keyboard"],
+  ["/docs/spelling", "Spell check"],
   ["/docs/templates", "Templates"],
   ["/docs/export", "Files and export"],
 ];

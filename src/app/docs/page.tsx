@@ -35,6 +35,10 @@ export default function GettingStarted() {
         <li>
           <Link href="/docs/keyboard">Thaana keyboard</Link>: the full key map.
         </li>
+        <li>
+          <Link href="/docs/spelling">Spell check</Link>: fixing mistakes and
+          adding your own words.
+        </li>
       </ul>
     </>
   );

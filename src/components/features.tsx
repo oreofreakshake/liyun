@@ -112,7 +112,7 @@ export function Features() {
             {(
               [
                 ["RTL", "rtl", "iPhone 17 ވިއްކަން ފަށައިފި"],
-                ["LTR", "ltr", "The word ރާއްޖެ means Maldives."],
+                ["LTR", "ltr", "Welcome to ރާއްޖެ!"],
               ] as const
             ).map(([badge, dir, text]) => (
               <div

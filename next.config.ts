@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
   transpilePackages: ["editor", "spellcheck", "store", "thaana-bidi"],
-  allowedDevOrigins: ["192.168.18.21"],
+  allowedDevOrigins: ["192.168.18.11"],
 };
 
 export default nextConfig;

@@ -13,7 +13,6 @@ import {
   RightToLeftListBulletIcon,
   RightToLeftListNumberIcon,
   SeparatorHorizontalIcon,
-  SpellCheckIcon,
   TableIcon,
   TextAlignCenterIcon,
   TextAlignJustifyCenterIcon,
@@ -110,7 +109,7 @@ export function Toolbar({
           : TextAlignLeftIcon;
 
   return (
-    <div className="no-scrollbar flex max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-border bg-card p-1 shadow-soft">
+    <div className="no-scrollbar flex max-w-full items-center gap-0.5 overflow-x-auto rounded-[13px] border border-border bg-card p-1 shadow-soft">
       <ToolButton
         label="Undo"
         disabled={!editor.can().undo()}
@@ -440,6 +439,18 @@ export function Toolbar({
           <Shortcut keys={["alt", "shift"]} />
           to switch
         </p>
+        {editor.storage.spellcheck?.available && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuCheckboxItem
+              checked={editor.storage.spellcheck.enabled}
+              onCheckedChange={(on) => chain().setSpellcheck(on).run()}
+              onSelect={(e) => e.preventDefault()}
+            >
+              Check spelling
+            </DropdownMenuCheckboxItem>
+          </>
+        )}
       </Menu>
 
       <ToolButton
@@ -449,18 +460,6 @@ export function Toolbar({
       >
         <Icon icon={HighlighterIcon} />
       </ToolButton>
-
-      {editor.storage.spellcheck?.available && (
-        <ToolButton
-          label="Check spelling"
-          pressed={editor.storage.spellcheck.enabled}
-          onClick={() =>
-            editor.commands.setSpellcheck(!editor.storage.spellcheck.enabled)
-          }
-        >
-          <Icon icon={SpellCheckIcon} />
-        </ToolButton>
-      )}
     </div>
   );
 }
@@ -528,7 +527,7 @@ function Menu({
         title={label}
         aria-label={label}
         data-pressed={pressed || undefined}
-        className="inline-flex h-8 shrink-0 items-center gap-1 rounded-full px-2 text-[13px] whitespace-nowrap text-body outline-none transition-colors hover:bg-panel focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-panel data-pressed:bg-panel"
+        className="inline-flex h-8 shrink-0 items-center gap-1 rounded-[9px] px-2 text-[13px] whitespace-nowrap text-body outline-none transition-colors hover:bg-panel focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-panel data-pressed:bg-panel"
       >
         {trigger}
         <Icon icon={ArrowDown01Icon} className="size-3 text-muted-foreground" />
@@ -569,7 +568,7 @@ function ToolButton({
       aria-pressed={pressed}
       disabled={disabled}
       onClick={onClick}
-      className="inline-flex size-8 shrink-0 items-center justify-center rounded-full text-body transition-colors hover:bg-panel disabled:opacity-35 disabled:hover:bg-transparent aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+      className="inline-flex size-8 shrink-0 items-center justify-center rounded-[9px] text-body transition-colors hover:bg-panel disabled:opacity-35 disabled:hover:bg-transparent aria-pressed:bg-primary aria-pressed:text-primary-foreground"
     >
       {children}
     </button>
