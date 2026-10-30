@@ -98,8 +98,6 @@ export const PageBreak = Node.create({
   },
 
   addKeyboardShortcuts() {
-    // Backspace at the start of a page, or Delete at the end of the one
-    // before, removes the break in one key press, as in a word processor.
     const removeBreak = (backward: boolean) => () => {
       const { state, view } = this.editor;
       const { selection } = state;

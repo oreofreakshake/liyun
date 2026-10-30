@@ -292,6 +292,19 @@
   }
 }
 
+.spelling-error {
+  text-decoration: underline wavy var(--destructive);
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.45em;
+}
+
+@media print {
+  .spelling-error {
+    text-decoration: none;
+  }
+}
+
 .ProseMirror {
   display: flex;
   flex-direction: column;
@@ -376,8 +389,6 @@
   }
 }
 
-/* Spacers between A4 sheets (see pagination.ts). They hold the empty end of a
-   page, the gap, and copies of the header and footer. */
 .ProseMirror [data-page-gap] {
   user-select: none;
 }

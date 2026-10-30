@@ -1,6 +1,5 @@
 import { PAGE_GAP, PAGE_HEIGHT } from "./pagination";
 
-/** A4 sheets drawn behind the text; pagination.ts spaces the text to match. */
 export function PageSheets({ pages }: { pages: number }) {
   return Array.from({ length: pages }, (_, i) => (
     <div

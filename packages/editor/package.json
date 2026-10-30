@@ -20,6 +20,7 @@
     "docx": "9.14.0",
     "mammoth": "1.13.0",
     "radix-ui": "1.8.1",
+    "spellcheck": "workspace:*",
     "tailwind-merge": "3.7.0",
     "thaana-bidi": "workspace:*"
   },

@@ -2,24 +2,15 @@ import { Extension } from "@tiptap/core";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet, type EditorView } from "@tiptap/pm/view";
 
-// Lays the document out on A4 sheets like a word processor: where a page
-// fills up, a spacer pushes the next block onto the next sheet and repeats the
-// header and footer around the gap. Only on screens wide enough for a full
-// page; narrower screens show one continuous page.
-
 const mm = 96 / 25.4;
 export const PAGE_HEIGHT = 297 * mm;
 export const PAGE_GAP = 24;
 const WIDE = "(min-width: 768px)";
-// Matches `.ProseMirror > :has(+ [data-page-footer])` in the stylesheet.
 const FOOTER_GAP = 32;
 
 type Break = {
-  /** Document position the spacer sits at. */
   pos: number;
-  /** Empty space left at the bottom of the page. */
   fill: number;
-  /** Ends the document (before the footer) rather than separating pages. */
   last?: boolean;
 };
 
@@ -90,7 +81,6 @@ function measure(view: EditorView): Layout | null {
     height: el.offsetHeight,
   }));
 
-  // Positions as if no spacers were there, so they do not feed back.
   const blocks: {
     el: HTMLElement;
     pos: number;
@@ -135,7 +125,6 @@ function measure(view: EditorView): Layout | null {
       pageStart = top;
     }
     first = false;
-    // A block taller than a page runs on across the sheets below it.
     while (block.bottom - pageStart > body) {
       pages++;
       pageStart += PAGE_HEIGHT + PAGE_GAP;
@@ -222,7 +211,6 @@ export const Pagination = Extension.create({
         view(view) {
           let frame = 0;
           let last: Layout | null = null;
-          // Spacers can shift margins slightly, so settle in a few passes.
           let passes = 0;
           const run = () => {
             cancelAnimationFrame(frame);

@@ -13,6 +13,7 @@ import {
 import type { Content, JSONContent } from "@tiptap/core";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { type ReactNode, useEffect, useReducer, useRef, useState } from "react";
+import { createSpeller } from "spellcheck/client";
 import type { Template } from "./document";
 import { download, safeFileName, toDocumentFile } from "./export/file";
 import { coreExtensionOptions, editorExtensions } from "./extensions";
@@ -34,6 +35,8 @@ import {
 } from "./native";
 import { PageSheets } from "./page-sheets";
 import { PAGE_GAP, PAGE_HEIGHT, Pagination, paginationKey } from "./pagination";
+import { SpellMenu } from "./spell-menu";
+import { Spellcheck } from "./spellcheck";
 import { Icon, Toolbar } from "./toolbar";
 import {
   DropdownMenu,
@@ -59,6 +62,28 @@ const pageClass = [
   "print:min-h-0",
 ].join(" ");
 
+let speller: ReturnType<typeof createSpeller> | undefined;
+const getSpeller = () => {
+  speller ??= createSpeller();
+  return speller;
+};
+
+const DICTIONARY_KEY = "liyun:dictionary";
+const personalDictionary = {
+  load(): string[] {
+    try {
+      return JSON.parse(localStorage.getItem(DICTIONARY_KEY) ?? "[]");
+    } catch {
+      return [];
+    }
+  },
+  save(words: string[]) {
+    try {
+      localStorage.setItem(DICTIONARY_KEY, JSON.stringify(words));
+    } catch {}
+  },
+};
+
 export function Editor({
   content,
   templates = [],
@@ -80,18 +105,14 @@ export function Editor({
   onDelete?: () => void;
   documentControls?: ReactNode;
   status?: ReactNode;
-  /** Suggested name for exported files, without an extension. */
   fileName?: string;
-  /** The file Save writes to in the desktop app. */
   filePath?: string;
-  /** Called after Save As in the desktop app, with the chosen file. */
   onSaved?: (source: OpenSource) => void;
 }) {
   const [showIsolation, setShowIsolation] = useState(false);
   const shortcut = useShortcutText();
   const runRef = useRef<(action: string) => void>(() => {});
   useEffect(() => {
-    // By physical key, so the shortcuts work under any keyboard layout.
     const actions: Record<string, string> = {
       KeyO: "open",
       KeyS: "save",
@@ -113,7 +134,14 @@ export function Editor({
     onChangeRef.current = onChange;
   });
   const editor = useEditor({
-    extensions: [...editorExtensions(), Pagination],
+    extensions: [
+      ...editorExtensions(),
+      Pagination,
+      Spellcheck.configure({
+        speller: getSpeller(),
+        personal: personalDictionary,
+      }),
+    ],
     enableCoreExtensions: coreExtensionOptions,
     content,
     immediatelyRender: false,
@@ -371,6 +399,7 @@ export function Editor({
           } ${showIsolation ? "show-runs" : ""}`}
         >
           <EditorContent editor={editor} className="print:hidden" />
+          {speller && <SpellMenu editor={editor} speller={speller} />}
           {paged && <PageSheets pages={pages} />}
           <table className="hidden w-full border-collapse print:table">
             <thead>

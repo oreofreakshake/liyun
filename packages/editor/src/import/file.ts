@@ -3,7 +3,6 @@ import { parseDocumentFile } from "../export/file";
 
 export const DOCUMENT_EXTENSION = "liyun";
 
-// Older versions saved .json backups; they hold the same document format.
 export const openFilters = [
   { name: "Documents", extensions: [DOCUMENT_EXTENSION, "docx", "json"] },
 ];
@@ -19,7 +18,6 @@ export function splitFileName(fileName: string) {
   };
 }
 
-/** Where an opened document came from, so it can be named and saved back. */
 export type OpenSource = { name: string; path?: string };
 
 export async function contentFromFile(
@@ -44,7 +42,6 @@ export async function readDocument(
 ): Promise<{ content: JSONContent; source: OpenSource }> {
   const { stem, extension } = splitFileName(fileName);
   const content = await contentFromFile(fileName, data);
-  // Only Liyun documents save back to where they came from.
   const linked = extension === DOCUMENT_EXTENSION ? path : undefined;
   return { content, source: { name: stem, path: linked } };
 }

@@ -53,3 +53,7 @@ scripts/
 
 # Real documents used as reference (never committed)
 private/
+
+# Spellcheck word lists built from licensed corpora (never committed)
+packages/spellcheck/data/
+/public/spellcheck/

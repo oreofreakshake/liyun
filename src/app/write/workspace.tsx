@@ -117,7 +117,6 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
     async (content: JSONContent, source?: OpenSource) => {
       await flush();
       const store = documentStore();
-      // A file that is already a document here opens that document instead.
       const linked = source?.path
         ? (await store.list()).find((d) => d.path === source.path)
         : undefined;
@@ -245,7 +244,6 @@ export function Workspace({ demoHtml }: { demoHtml: string }) {
 
   const documentControls = (
     <>
-      {/* The desktop app has no website to go back to. */}
       {isTauri() ? (
         <span className="shrink-0 px-1">
           <LogoMark className="h-7 w-auto" />

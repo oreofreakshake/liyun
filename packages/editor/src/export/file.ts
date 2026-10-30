@@ -25,7 +25,6 @@ export function parseDocumentFile(text: string): DocumentFile {
   return { version: DOCUMENT_VERSION, content: file.content };
 }
 
-// Characters Windows or macOS refuse in file names, and control characters.
 const unsafe = /[\\/:*?"<>|\p{Cc}]/gu;
 
 export function safeFileName(name: string) {

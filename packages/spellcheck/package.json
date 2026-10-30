@@ -1,0 +1,15 @@
+{
+  "name": "spellcheck",
+  "version": "0.0.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts"
+  },
+  "scripts": {
+    "test": "bun test",
+    "lexicon": "bun tools/build-lexicon.ts"
+  }
+}

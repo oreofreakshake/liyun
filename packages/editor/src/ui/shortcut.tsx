@@ -5,7 +5,6 @@ import { Kbd, KbdGroup } from "./kbd";
 
 type Key = "mod" | "alt" | "shift" | "enter" | (string & {});
 
-// macOS writes modifiers as symbols in a fixed order, e.g. ⌥⇧⌘S.
 const macSymbols: Record<string, string> = {
   alt: "⌥",
   shift: "⇧",
@@ -22,7 +21,6 @@ const words: Record<string, string> = {
 
 export const isMacPlatform = () => /Mac|iPhone|iPad/.test(navigator.platform);
 
-// Server renders and the first client render use the non-Mac labels.
 export function useIsMac() {
   return useSyncExternalStore(
     () => () => {},
@@ -45,18 +43,15 @@ function useKeys() {
   };
 }
 
-/** Shortcut text for menus: ⇧⌘S on macOS, Ctrl+Shift+S elsewhere. */
 export function useShortcutText() {
   const mac = useIsMac();
   const labels = useKeys();
   return (keys: Key[]) => labels(keys).join(mac ? "" : "+");
 }
 
-// Flat, muted keys after shadcn's Kbd, lighter than the bordered key caps.
 const flatKey =
   "h-5 min-w-5 border-0 bg-muted px-1 text-xs text-muted-foreground shadow-none";
 
-/** Shortcut as keys: ⌥ ⇧ on macOS, Alt + Shift elsewhere. */
 export function Shortcut({ keys }: { keys: Key[] }) {
   const mac = useIsMac();
   const labels = useKeys()(keys);

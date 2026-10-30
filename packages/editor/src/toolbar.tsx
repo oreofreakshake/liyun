@@ -13,6 +13,7 @@ import {
   RightToLeftListBulletIcon,
   RightToLeftListNumberIcon,
   SeparatorHorizontalIcon,
+  SpellCheckIcon,
   TableIcon,
   TextAlignCenterIcon,
   TextAlignJustifyCenterIcon,
@@ -448,6 +449,18 @@ export function Toolbar({
       >
         <Icon icon={HighlighterIcon} />
       </ToolButton>
+
+      {editor.storage.spellcheck?.available && (
+        <ToolButton
+          label="Check spelling"
+          pressed={editor.storage.spellcheck.enabled}
+          onClick={() =>
+            editor.commands.setSpellcheck(!editor.storage.spellcheck.enabled)
+          }
+        >
+          <Icon icon={SpellCheckIcon} />
+        </ToolButton>
+      )}
     </div>
   );
 }
