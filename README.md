@@ -26,6 +26,9 @@ editor, typed and pasted, and after export to Word.
 
 - Per-paragraph direction and automatic LTR isolation
 - Phonetic Thaana keyboard; switch to English from the keyboard menu or with Alt + Shift
+- Dhivehi spell check: mistakes are underlined as you type, right-click for suggestions, and
+  words can be added to your own dictionary. It runs entirely in the browser, so no text leaves
+  your device
 - Templates: official letter, memo, meeting minutes, invoice, news article
 - Liyun files (.liyun), opening Word files, export to Word (.docx) and PDF
 - No account and no server: documents are saved in the browser (for now)
@@ -55,6 +58,7 @@ User documentation is on the site at `/docs`.
 |---|---|
 | `packages/thaana-bidi` | Paragraph direction and LTR run detection, with the bidi test cases |
 | `packages/editor` | Tiptap editor, Thaana keyboard, DOCX export |
+| `packages/spellcheck` | Dhivehi spell checker: word lookup, suggestions and the Web Worker |
 | `packages/store` | `DocumentStore` interface with IndexedDB and in-memory implementations |
 | `templates/` | Document templates (`source/*.html` builds into `*.json`) |
 | `src/app` | Next.js site: landing page, docs and the editor at `/write` |
@@ -63,6 +67,12 @@ User documentation is on the site at `/docs`.
 
 The Thaana font used in development is not included in the repository. Without it, Thaana text
 falls back to a system font.  We are using [Rasmee](https://www.akurutype.com/fonts/rasmee) by [Akurutype](https://www.akurutype.com/)
+
+## Spell check word list
+
+The Dhivehi word list is not included in the repository. Without it, the editor works as usual
+but has no spell check (the toolbar button is hidden). Deploys download it at build time when
+`LIYUN_LEXICON_URL` (and `LIYUN_LEXICON_TOKEN`, if needed) are set.
 
 ## Contributing
 
