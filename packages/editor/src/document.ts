@@ -10,7 +10,7 @@ export type DocumentFile = {
 export type Template = DocumentFile & {
   id: string;
   title: { dv: string; en: string };
-  license: "Apache-2.0";
+  license: "MIT";
 };
 
 const frameParts = ["pageHeader", "pageFooter"];

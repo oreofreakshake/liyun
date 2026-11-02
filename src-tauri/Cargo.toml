@@ -2,7 +2,7 @@
 name = "liyun"
 version = "0.1.0"
 description = "An intuitive Dhivehi text editor"
-license = "Apache-2.0"
+license = "AGPL-3.0-only"
 edition = "2024"
 rust-version = "1.90"
 

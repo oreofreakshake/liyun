@@ -81,3 +81,23 @@ cases are especially welcome.
 
 The Thaana keyboard layout is adapted from
 [JTK](https://github.com/jawish/jtk) by Jawish
+
+## Licence
+
+Copyright (C) 2026 Yoosuf Yazak Hafiz
+
+Liyun is licensed under the [GNU Affero General Public License v3.0](LICENSE) only. If you
+distribute a modified version, or let people use one over a network, you must offer them its source
+under the same licence.
+
+The document templates in `templates/` are under the [MIT licence](templates/LICENSE), so documents
+made from them carry no AGPL obligations. What you write in Liyun is yours.
+
+The Thaana font and the spell check word list are not in this repository and are not covered by
+these licences.
+
+## Trademark
+
+"Liyun" and the Liyun logo are trademarks of Yoosuf Yazak Hafiz. The licences above do not grant any
+right to use them. Forks and modified versions must use a different name and logo, but may say
+accurately that they are based on Liyun.

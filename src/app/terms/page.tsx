@@ -6,12 +6,13 @@ export const metadata: Metadata = { title: "Terms | Liyun" };
 
 export default function Terms() {
   return (
-    <LegalPage title="Terms" updated="24 October 2026">
+    <LegalPage title="Terms" updated="2 November 2026">
       <h2>Free to use</h2>
       <p>
         Liyun is free and open source under the{" "}
-        <a href={`${githubUrl}/blob/main/LICENSE`}>Apache 2.0 licence</a>. You
-        may use it for personal and commercial work.
+        <a href={`${githubUrl}/blob/main/LICENSE`}>GNU AGPL 3.0 licence</a>. You
+        may use it for personal and commercial work. The name Liyun and its logo
+        are trademarks and are not covered by the licence.
       </p>
 
       <h2>Your content</h2>

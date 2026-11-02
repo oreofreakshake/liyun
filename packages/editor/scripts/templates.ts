@@ -32,7 +32,7 @@ export function buildTemplate({ id, title }: Entry): Template {
     version: DOCUMENT_VERSION,
     id,
     title,
-    license: "Apache-2.0",
+    license: "MIT",
     content,
   };
 }
